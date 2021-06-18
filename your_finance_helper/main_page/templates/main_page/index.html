@@ -1,0 +1,29 @@
+{% extends 'main_page/layout.html'%}
+
+{% block title %}Главная страница{% endblock %}
+
+
+{% block content %}
+    <div class="features">
+        <h2>{{ title }}</h2>
+        <h1>Текущие финансовые результаты</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, esse perferendis mollitia magni quaerat facilis quibusdam inventore ea unde doloremque officia autem voluptatem labore asperiores. Illum dolores aliquid fugit delectus.</p>
+        <button class='btn btn-primary'>Доход</button>
+        <button class='btn btn-danger'>Расход</button>
+
+        {% for i in values %}
+            {% if i == 'some' %}
+                {% filter upper %}
+                    <p>{{ i }}</p>
+                {% endfilter %}
+            {% endif %}
+        {% endfor %}
+
+        {% for j in obj %}
+            <p>{{ j }}</p>
+        {% endfor %}
+    </div>
+
+    
+{% endblock %}
+

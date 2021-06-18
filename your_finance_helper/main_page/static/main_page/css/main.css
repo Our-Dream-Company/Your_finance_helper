@@ -1,0 +1,64 @@
+body {
+  background-color: rgb(255, 255, 255);
+}
+
+aside {
+  float: left;
+  background: rgb(34, 32, 32);
+  width: 26%;
+  padding: 2.5%;
+  height: 60vh;
+  color: white;
+  border-right: 5px, rgb(52, 52, 228);
+}
+
+aside img {
+  width: 20px;
+  float: left;
+}
+
+aside .logo {
+  font-weight: bold;
+  position: relative;
+  top: -3px;
+}
+
+aside h3 {
+  margin-top: 50px;
+  font-size: 28px;
+}
+
+aside ul {
+  list-style: none;
+}
+
+aside ul li {
+  color: white;
+  display: block;
+  margin-top: 5px;
+  margin-left: 5px;
+  transition: transform 0.6s ease;
+}
+
+aside ul li:hover,
+aside ul a:hover {
+  color: brown;
+  transform: scale(1.05);
+  text-decoration: none;
+}
+
+main .features {
+  float: left;
+  color: black;
+  margin-top: 5px;
+  text-align: center;
+  width: 60%;
+}
+
+main .features h1 {
+  font-size: 40px;
+}
+main .features p {
+  max-width: 400px;
+  margin: 20px auto;
+}

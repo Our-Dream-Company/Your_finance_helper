@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'main_page/css/main.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
+</head>
+<body>
+    <aside>
+        <img src="{% static 'main_page/img/dollar.png' %}" alt="Лого">
+        <span class="logo"><h5>Текущие результаты</h5></span>
+        <h3>Навигация</h3>
+        <ul>
+            <a href="{% url 'main_page' %}"><li><i class="fas fa-home"></i> Текущие финансовые результаты</li></a>
+            <a href=""><li><i class="fas fa-calendar-alt"></i> Финансовый календарь</li></a>
+            <a href=""><li><i class="fas fa-piggy-bank"></i> Сбережения</li></a>
+            <a href=""><li><i class="fas fa-list"></i> Список планируемых расходов</li></a>
+            <a href=""><li><i class="fas fa-chart-pie"></i> Отчёты</li></a>
+            <a href=""><li><i class="fas fa-cogs"></i> Настройки</li></a>
+        </ul>
+    </aside>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+</body>
+</html>
