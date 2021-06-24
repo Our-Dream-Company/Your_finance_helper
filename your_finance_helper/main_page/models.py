@@ -3,7 +3,7 @@ from datetime import date
 
 
 class Section(models.Model):
-    section = models.CharField('Section', max_length=25)
+    section = models.CharField('Section', max_length=50)
 
     def __str__(self):
         return self.section
@@ -14,7 +14,7 @@ class Section(models.Model):
 
 
 class Category(models.Model):
-    category = models.CharField('Category', max_length=25, blank=True)
+    category = models.CharField('Category', max_length=50, blank=True)
 
     def __str__(self):
         return self.category
@@ -25,7 +25,7 @@ class Category(models.Model):
 
 
 class NameOperation(models.Model):
-    name = models.CharField('Name', max_length=25, blank=True)
+    name = models.CharField('Name', max_length=50, blank=True)
 
     def __str__(self):
         return self.name
