@@ -14,7 +14,7 @@ class Section(models.Model):
 
 
 class Category(models.Model):
-    category = models.CharField('Category', max_length=50, blank=True)
+    category = models.CharField('Category', max_length=50, null=True)
 
     def __str__(self):
         return self.category
@@ -25,7 +25,7 @@ class Category(models.Model):
 
 
 class NameOperation(models.Model):
-    name = models.CharField('Name', max_length=50, blank=True)
+    name = models.CharField('Name', max_length=50, null=True)
 
     def __str__(self):
         return self.name
