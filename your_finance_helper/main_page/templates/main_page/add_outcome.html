@@ -1,0 +1,21 @@
+{% extends 'main_page/layout.html'%}
+
+{% block title %}Расход{% endblock %}
+
+
+{% block content %}
+    <div class="features">
+        <h1>Доход</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="Раздел" class="form-contol"><br>
+            <input type="text" placeholder="Категория" class="form-contol"><br>
+            <input type="text" placeholder="Наименование" class="form-contol"><br>
+            <input type="number" step="any" placeholder="Сумма" class="form-contol"><br>
+            <input type="date" placeholder="Дата" class="form-contol"><br>
+            <input type="text" placeholder="Комментарий" class="form-contol"><br>
+            <button class="btn btn-success" type="submit">Добавить</button>
+        </form>
+
+
+{% endblock %}

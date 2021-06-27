@@ -7,23 +7,40 @@
     <div class="features">
         <h2>{{ title }}</h2>
         <h1>Текущие финансовые результаты</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, esse perferendis mollitia magni quaerat facilis quibusdam inventore ea unde doloremque officia autem voluptatem labore asperiores. Illum dolores aliquid fugit delectus.</p>
-        <button class='btn btn-primary'>Доход</button>
-        <button class='btn btn-danger'>Расход</button>
+        <p>Тестируем отображение значений из БД</p>
+        <a href="{% url 'add_income' %}"><button class='btn btn-primary'>Доход</button></a>
+        <a href="{% url 'add_outcome' %}"><button class='btn btn-danger'>Расход</button></a>
 
-        {% for i in values %}
-            {% if i == 'some' %}
-                {% filter upper %}
-                    <p>{{ i }}</p>
-                {% endfilter %}
-            {% endif %}
+        {% for el in in_data %}
+            <div class="alert alert-primary">
+                <h3>{{ el.d_section }}</h3>
+                {% if 'None' not in el.id_category %}
+                    <h4>{{ el.d_category}}</h4>
+                {% endif %}
+                {% if 'None' not in el.id_name %}
+                    <h5>{{ el.id_name}}</h5>
+                {% endif %}
+                <p>{{ el.sum_money }}</p>
+            </div>
         {% endfor %}
+        {{ in_sum.in_money }}
+        
 
-        {% for j in obj %}
-            <p>{{ j }}</p>
+        {% for el in out_data %}
+            <div class="alert alert-danger">
+                <h3>{{ el.d_section }}</h3>
+                {% if el.id_category != 'None' %}
+                <h4>{{ el.id_category}}</h4>
+                {% endif %}
+                {% if el.id_name != 'None' %}
+                <h5>{{ el.id_name}}</h5>
+                {% endif %}
+                <p>{{ el.sum_money }}</p>
+            </div>
         {% endfor %}
+        {{ out_sum.out_money }}
     </div>
+    {{ out_section }}
 
-    
 {% endblock %}
 
