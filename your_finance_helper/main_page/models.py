@@ -42,7 +42,7 @@ class GeneralTable(models.Model):
 
     type_of_transaction = models.CharField(
         choices=TypeOfTransaction.choices, max_length=3)
-    d_section = models.ForeignKey(
+    id_section = models.ForeignKey(
         Section, related_name='sec', on_delete=models.SET_NULL, null=True, verbose_name='Section')
     id_category = models.ForeignKey(
         Category, related_name='cat', on_delete=models.SET_NULL, null=True, verbose_name='Category')

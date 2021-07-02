@@ -11,9 +11,17 @@
         <a href="{% url 'add_income' %}"><button class='btn btn-primary'>Доход</button></a>
         <a href="{% url 'add_outcome' %}"><button class='btn btn-danger'>Расход</button></a>
 
-        {% for el in in_data %}
+
+
+        {% for el in data %}
+            {{ el.id_section__section }}
+        {% endfor %}
+
+        
+        
+<!--        {% for el in data %}
             <div class="alert alert-primary">
-                <h3>{{ el.d_section }}</h3>
+                <h3>{{ el.id_section }}</h3>
                 {% if 'None' not in el.id_category %}
                     <h4>{{ el.d_category}}</h4>
                 {% endif %}
@@ -26,9 +34,9 @@
         {{ in_sum.in_money }}
         
 
-        {% for el in out_data %}
+        {% for el in data %}
             <div class="alert alert-danger">
-                <h3>{{ el.d_section }}</h3>
+                <h3>{{ el.id_section }}</h3>
                 {% if el.id_category != 'None' %}
                 <h4>{{ el.id_category}}</h4>
                 {% endif %}
@@ -40,7 +48,7 @@
         {% endfor %}
         {{ out_sum.out_money }}
     </div>
-    {{ out_section }}
+    {{ out_section }}--> 
 
 {% endblock %}
 
