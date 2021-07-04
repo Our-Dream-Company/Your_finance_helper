@@ -12,43 +12,45 @@
         <a href="{% url 'add_outcome' %}"><button class='btn btn-danger'>Расход</button></a>
 
 
-
-        {% for el in data %}
-            {{ el.id_section__section }}
+        <h2>{{ 'Доход' }}</h2>
+        {% for el in in_section %}
+            <h5>{{ el.id_section__section }} {{ el.sum }}</h5>
+            {% for i in in_category %}
+                {% if el.id_section__id == i.id_category__to_section %}
+                <h6>{{ i.id_category__category}}</h6>
+                {% for j in in_name %}
+                    {% if i.id_category__id == j.id_name__to_category %}
+                        <h7>{{ j.id_name__name}} {{ j.sum }}</h7>
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+            {% endfor %}
         {% endfor %}
+        <h1>{{ 'Общий доход' }} {{ in_all_sum.in_money }}</h1>
+
+        <h2>{{ 'Расход' }}</h2>
+        {% for el in out_section %}
+            <h5>{{ el.id_section__section }} {{ el.sum }}</h5>
+            {% for i in out_category %}
+                {% if el.id_section__id == i.id_category__to_section %}
+                <h6>{{ i.id_category__category}}</h6>
+                {% for j in out_name %}
+                    {% if i.id_category__id == j.id_name__to_category %}
+                        <h7>{{ j.id_name__name}} {{ j.sum }}</h7>
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        <h1>{{ 'Общий расход' }}{{ out_all_sum.out_money }}</h1>
 
         
         
-<!--        {% for el in data %}
-            <div class="alert alert-primary">
-                <h3>{{ el.id_section }}</h3>
-                {% if 'None' not in el.id_category %}
-                    <h4>{{ el.d_category}}</h4>
-                {% endif %}
-                {% if 'None' not in el.id_name %}
-                    <h5>{{ el.id_name}}</h5>
-                {% endif %}
-                <p>{{ el.sum_money }}</p>
-            </div>
-        {% endfor %}
-        {{ in_sum.in_money }}
+
+
+        
         
 
-        {% for el in data %}
-            <div class="alert alert-danger">
-                <h3>{{ el.id_section }}</h3>
-                {% if el.id_category != 'None' %}
-                <h4>{{ el.id_category}}</h4>
-                {% endif %}
-                {% if el.id_name != 'None' %}
-                <h5>{{ el.id_name}}</h5>
-                {% endif %}
-                <p>{{ el.sum_money }}</p>
-            </div>
-        {% endfor %}
-        {{ out_sum.out_money }}
-    </div>
-    {{ out_section }}--> 
 
 {% endblock %}
 

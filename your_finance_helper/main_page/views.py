@@ -1,31 +1,36 @@
 from django.shortcuts import render
 from .models import Category, GeneralTable, Section
 from django.db.models import Sum
-from django.views.generic import View
+from django.views.generic import View, CreateView
 
 
 class IndexView(View):
     def get(self, request):
-        data = GeneralTable.objects.values('id_section__section', 'id_section__id', 'id_category').order_by(
-            'id_section').filter(type_of_transaction='OUT').distinct()
-        category = Category.objects.values('id', 'category')
-        return render(request, 'main_page/index.html', {'data': data, 'category': category})
+        in_section = GeneralTable.objects.values(
+            'id_section__section', 'id_section__id').annotate(sum=Sum('sum_money')).filter(type_of_transaction='IN').filter(enabled=False)
+        in_category = GeneralTable.objects.values(
+            'id_category__id', 'id_category__category', 'id_category__to_section').distinct().filter(id_category__isnull=False).filter(type_of_transaction='IN').filter(enabled=False)
+        in_name = GeneralTable.objects.values(
+            'id_name__name', 'id_name__to_category').annotate(sum=Sum('sum_money')).filter(id_name__isnull=False).filter(type_of_transaction='IN').filter(enabled=False)
+        in_all_sum = GeneralTable.objects.filter(type_of_transaction='IN').filter(
+            enabled=False).aggregate(in_money=Sum('sum_money'))
+        out_section = GeneralTable.objects.values(
+            'id_section__section', 'id_section__id').annotate(sum=Sum('sum_money')).filter(type_of_transaction='OUT').filter(enabled=False)
+        out_category = GeneralTable.objects.values(
+            'id_category__id', 'id_category__category', 'id_category__to_section').distinct().filter(id_category__isnull=False).filter(type_of_transaction='OUT').filter(enabled=False)
+        out_name = GeneralTable.objects.values(
+            'id_name__name', 'id_name__to_category').annotate(sum=Sum('sum_money')).filter(id_name__isnull=False).filter(type_of_transaction='OUT').filter(enabled=False)
+        out_all_sum = GeneralTable.objects.filter(type_of_transaction='OUT').filter(
+            enabled=False).aggregate(out_money=Sum('sum_money'))
+        return render(request, 'main_page/index.html', {'in_section': in_section, 'in_category': in_category, 'in_name': in_name, 'out_section': out_section, 'out_category': out_category, 'out_name': out_name, 'in_all_sum': in_all_sum, 'out_all_sum': out_all_sum})
 
-# def index(request):
-#    in_data = GeneralTable.objects.filter(
-#        type_of_transaction='IN').filter(enabled=False).order_by('date')
-#    out_data = GeneralTable.objects.filter(type_of_transaction='OUT').filter(enabled=False).order_by('date')
-#    out_id = out_data.all().values('id')
-#    out_section = out_data.all().values(
-#        'id_section__section').order_by('id_section__section').distinct()
-#    print(out_section)
-#    in_sum = in_data.aggregate(in_money=Sum('sum_money'))
-#    out_sum = out_data.aggregate(out_money=Sum('sum_money'))
-#    return render(request, 'main_page/index.html', {'in_data': in_data, 'out_data': out_data, 'in_sum': in_sum, 'out_sum': out_sum, 'out_section': out_section})
+
+class AddIncome(CreateView):
+    form_class = AddPostForm
 
 
-def add_income(request):
-    return render(request, 'main_page/add_income.html')
+# def add_income(request):
+#     return render(request, 'main_page/add_income.html')
 
 
 def add_outcome(request):
