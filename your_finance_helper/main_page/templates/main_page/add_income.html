@@ -1,21 +1,18 @@
 {% extends 'main_page/layout.html'%}
 
-{% block title %}Доход{% endblock %}
+{% block title %}{{ 'Доход' }}{% endblock %}
 
 
 {% block content %}
-    <div class="features">
-        <h1>Доход</h1>
-        <form method="post">
+        <form action="{% url 'add_income' %}" method="post">
             {% csrf_token %}
-            <input type="text" placeholder="Раздел" class="form-contol"><br>
-            <input type="text" placeholder="Категория" class="form-contol"><br>
-            <input type="text" placeholder="Наименование" class="form-contol"><br>
-            <input type="number" step="any" placeholder="Сумма" class="form-contol"><br>
-            <input type="date" placeholder="Дата" class="form-contol"><br>
-            <input type="text" placeholder="Комментарий" class="form-contol"><br>
+            {{ form.as_p }}
             <button class="btn btn-success" type="submit">Добавить</button>
+        
         </form>
 
 
 {% endblock %}
+
+
+

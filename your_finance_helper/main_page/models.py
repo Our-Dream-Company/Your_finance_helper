@@ -61,7 +61,7 @@ class GeneralTable(models.Model):
     id_category = models.ForeignKey(
         Category, related_name='cat', on_delete=models.SET_NULL, null=True, verbose_name='Category')
     id_name = models.ForeignKey(
-        NameOperation, related_name='nam', on_delete=models.SET_NULL, null=True,  verbose_name='Name')
+        NameOperation, related_name='nam', on_delete=models.SET_NULL, null=True, verbose_name='Name')
     sum_money = models.DecimalField('Amount', decimal_places=2, max_digits=10)
     currency = models.CharField(
         choices=Currency.choices, max_length=3, default='BYN')

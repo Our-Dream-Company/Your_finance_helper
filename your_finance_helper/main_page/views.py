@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from .models import Category, GeneralTable, Section
+from .models import *
 from django.db.models import Sum
 from django.views.generic import View, CreateView
+from django.urls import reverse_lazy
+from .forms import *
 
 
 class IndexView(View):
@@ -25,13 +27,13 @@ class IndexView(View):
         return render(request, 'main_page/index.html', {'in_section': in_section, 'in_category': in_category, 'in_name': in_name, 'out_section': out_section, 'out_category': out_category, 'out_name': out_name, 'in_all_sum': in_all_sum, 'out_all_sum': out_all_sum})
 
 
-class AddIncome(CreateView):
-    form_class = AddPostForm
+class AddIncomeView(CreateView):
+    form_class = AddIncomeForm
+    template_name = 'main_page/add_income.html'
+    success_url = reverse_lazy('main_page')
 
 
-# def add_income(request):
-#     return render(request, 'main_page/add_income.html')
-
-
-def add_outcome(request):
-    return render(request, 'main_page/add_outcome.html')
+class AddOutcomeView(CreateView):
+    form_class = AddOutcomeForm
+    template_name = 'main_page/add_outcome.html'
+    success_url = reverse_lazy('main_page')
