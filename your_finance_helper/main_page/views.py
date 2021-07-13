@@ -37,3 +37,21 @@ class AddOutcomeView(CreateView):
     form_class = AddOutcomeForm
     template_name = 'main_page/add_outcome.html'
     success_url = reverse_lazy('main_page')
+
+
+class AddNewSectionView(CreateView):
+    form_class = AddNewSectionForm
+    template_name = 'main_page/add_new_section.html'
+    success_url = reverse_lazy('add_new_section')
+
+
+class AddNewCategoryView(CreateView):
+    form_class = AddNewCategoryForm
+    template_name = 'main_page/add_new_category.html'
+    success_url = reverse_lazy('add_new_category')
+
+
+class AddNewNameView(CreateView):
+    form_class = AddNewNameForm
+    template_name = 'main_page/add_new_name.html'
+    success_url = reverse_lazy('add_new_name')

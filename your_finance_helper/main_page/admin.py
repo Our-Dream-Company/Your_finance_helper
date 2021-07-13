@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import Section
-from .models import Category
-from .models import NameOperation
-from .models import GeneralTable
+from .models import *
+
 
 admin.site.register(Section)
 admin.site.register(Category)

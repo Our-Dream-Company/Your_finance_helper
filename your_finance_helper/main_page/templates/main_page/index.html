@@ -44,11 +44,7 @@
         {% endfor %}
         <h1>{{ 'Общий расход' }}{{ out_all_sum.out_money }}</h1>
 
-        
-        
-
-
-        
+        {{ 'Баланс ' }}{{ in_all_sum.in_money|add:out_all_sum.out_money }}
         
 
 

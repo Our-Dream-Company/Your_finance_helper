@@ -33,3 +33,21 @@ class AddOutcomeForm(ModelForm):
     class Meta:
         model = GeneralTable
         exclude = ['type_of_transaction', 'enabled']
+
+
+class AddNewSectionForm(ModelForm):
+    class Meta:
+        model = Section
+        exclude = ['enabled_section']
+
+
+class AddNewCategoryForm(ModelForm):
+    class Meta:
+        model = Category
+        exclude = ['enabled_category']
+
+
+class AddNewNameForm(ModelForm):
+    class Meta:
+        model = NameOperation
+        exclude = ['enabled_name']
