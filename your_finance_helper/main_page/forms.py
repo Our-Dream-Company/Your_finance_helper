@@ -1,7 +1,7 @@
 
-from django.forms import formsets
+from django.forms import formsets, widgets
 from .models import *
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput, DateInput, NumberInput, Select
 from django.forms.formsets import formset_factory
 
 
@@ -18,6 +18,36 @@ class AddIncomeForm(ModelForm):
     class Meta:
         model = GeneralTable
         exclude = ['type_of_transaction', 'enabled']
+        widgets = {
+            'id_section': Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Section'
+            }),
+            'id_category': Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Category'
+            }),
+            'id_name': Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Name:'
+            }),
+            'sum_money': NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Amount'
+            }),
+            'currency': Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Currency'
+            }),
+            'date': DateInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Date'
+            }),
+            'comment': TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Comment'
+            })
+        }
 
 
 class AddOutcomeForm(ModelForm):
@@ -33,6 +63,36 @@ class AddOutcomeForm(ModelForm):
     class Meta:
         model = GeneralTable
         exclude = ['type_of_transaction', 'enabled']
+        widgets = {
+            'id_section': Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Section'
+            }),
+            'id_category': Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Category'
+            }),
+            'id_name': Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Name:'
+            }),
+            'sum_money': NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Amount'
+            }),
+            'currency': Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Currency'
+            }),
+            'date': DateInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Date'
+            }),
+            'comment': TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Comment'
+            })
+        }
 
 
 class AddNewSectionForm(ModelForm):
