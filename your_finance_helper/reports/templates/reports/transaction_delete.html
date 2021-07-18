@@ -1,0 +1,13 @@
+{% extends 'main_page/layout.html'%}
+
+{% block title %}{{ form.id_section }}{% endblock %}
+
+
+{% block content %}
+        <form action="{% url 'transaction_delete' pk=transaction_d_form.pk %}" method="post">
+            {% csrf_token %}
+            {{ 'You are sure? ' }}{{ form.enabled }}<br>
+            <button class="btn btn-success btn-sm" type="submit">Delete</button><br>
+            <a href="{% url 'transaction_view' pk=transaction_d_form.pk %}" class="btn btn-dark btn-sm">Back</a>
+        </form>
+{% endblock %}

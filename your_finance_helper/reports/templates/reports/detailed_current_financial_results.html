@@ -1,0 +1,36 @@
+{% extends 'main_page/layout.html'%}
+
+{% block title %}Detailed current financial results{% endblock %}
+
+
+{% block content %}
+    <h2>{{ 'Income' }}</h2>
+    {% for i in income_all %}
+        {{ i.id_section }}
+        {% if 'None' not in i.id_category %}
+            {{ i.id_category }}
+        {% endif %}
+        {% if 'None' not in i.id_name %}
+            {{ i.id_name }}
+        {% endif %}
+        {{ i.sum_money }}
+        {{ i.currency }}
+        {{ i.date }}
+        {{ i.comment }}<a href="{% url 'transaction_view' pk=i.id %}" class="btn btn-info btn-sm">Update/Delete</a><br>
+        
+    {% endfor %}
+
+    <h2>{{ 'Outcome' }}</h2>
+    {% for i in outcome_all %}
+        {{ i.id_section }}
+        {{ i.id_category }}
+        {{ i.id_name }}
+        {{ i.sum_money }}
+        {{ i.currency }}
+        {{ i.date }}
+        {{ i.comment }}<a href="{% url 'transaction_view' pk=i.id %}" class="btn btn-info btn-sm">Update/Delete</a><br>
+    {% endfor %}
+    <a href="{% url 'reports' %}" class="btn btn-dark btn-sm">Back</a>
+
+
+{% endblock %}
