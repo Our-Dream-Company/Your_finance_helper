@@ -7,8 +7,7 @@
     <div class="features">
         <h2>{{ title }}</h2>
         <h1>Текущие финансовые результаты</h1>
-        <p>Тестируем отображение значений из БД</p>
-        
+                
         <h2>{{ 'Income' }}</h2>
         {% for el in in_section %}
             <h5>{{ el.id_section__section }} {{ el.sum }}</h5>
