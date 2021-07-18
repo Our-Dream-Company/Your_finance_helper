@@ -1,0 +1,20 @@
+{% extends 'main_page/layout.html'%}
+
+{% block title %}{{ form.id_section }}{% endblock %}
+
+
+{% block content %}
+        <form action="{% url 'transaction_update' pk=transaction_form.pk %}" method="post">
+            {% csrf_token %}
+            {{ form.type_of_transaction }}<br>
+            {{ form.id_section }}<br>
+            {{ form.id_category }}<br>
+            {{ form.id_name }}<br>
+            {{ form.sum_money }}<br>
+            {{ form.currency }}<br>
+            {{ form.date }}<br>
+            {{ form.comment }}<br>
+            <button class="btn btn-success" type="submit">Update</button><br>
+            <a href="{% url 'transaction_view' pk=transaction_form.pk %}" class="btn btn-dark btn-sm">Back</a>
+        </form>
+{% endblock %}
