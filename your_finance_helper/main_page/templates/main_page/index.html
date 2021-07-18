@@ -7,42 +7,23 @@
     <div class="features">
         <h2>{{ title }}</h2>
         <h1>Текущие финансовые результаты</h1>
-                
-        <h2>{{ 'Income' }}</h2>
-        {% for el in in_section %}
-            <h5>{{ el.id_section__section }} {{ el.sum }}</h5>
-            {% for i in in_category %}
-                {% if el.id_section__id == i.id_category__to_section %}
-                <h6>{{ i.id_category__category}}</h6>
-                {% for j in in_name %}
-                    {% if i.id_category__id == j.id_name__to_category %}
-                        <h7>{{ j.id_name__name}} {{ j.sum }}</h7>
-                    {% endif %}
-                {% endfor %}
-                {% endif %}
-            {% endfor %}
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, esse perferendis mollitia magni quaerat facilis quibusdam inventore ea unde doloremque officia autem voluptatem labore asperiores. Illum dolores aliquid fugit delectus.</p>
+        <button class='btn btn-primary'>Доход</button>
+        <button class='btn btn-danger'>Расход</button>
+
+        {% for i in values %}
+            {% if i == 'some' %}
+                {% filter upper %}
+                    <p>{{ i }}</p>
+                {% endfilter %}
+            {% endif %}
         {% endfor %}
-        <h1>{{ 'Общий доход' }} {{ in_all_sum.in_money }}</h1>
 
-        <h2>{{ 'Outcome' }}</h2>
-        {% for el in out_section %}
-            <h5>{{ el.id_section__section }} {{ el.sum }}</h5>
-            {% for i in out_category %}
-                {% if el.id_section__id == i.id_category__to_section %}
-                <h6>{{ i.id_category__category}}</h6>
-                {% for j in out_name %}
-                    {% if i.id_category__id == j.id_name__to_category %}
-                        <h7>{{ j.id_name__name}} {{ j.sum }}</h7>
-                    {% endif %}
-                {% endfor %}
-                {% endif %}
-            {% endfor %}
+        {% for j in obj %}
+            <p>{{ j }}</p>
         {% endfor %}
-        <h1>{{ 'Общий расход' }}{{ out_all_sum.out_money }}</h1>
+    </div>
 
-        {{ 'Баланс ' }}{{ in_all_sum.in_money|add:out_all_sum.out_money }}
-        
-
-
+    
 {% endblock %}
 
