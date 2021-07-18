@@ -1,0 +1,38 @@
+{% extends 'main_page/layout.html'%}
+
+{% block title %}Detailed current financial results{% endblock %}
+
+
+{% block content %}
+    <h2>{{ 'Income' }}</h2>
+    {% for i in income_all %}
+        {{ i.id_section__section }}
+        {% if 'None' not in i.id_category__category %}
+            {{ i.id_category__category }}
+        {% endif %}
+        {% if 'None' not in i.id_name__name %}
+            {{ i.id_name__name }}
+        {% endif %}
+        {{ i.sum_money }}
+        {{ i.currency }}
+        {{ i.date }}
+        {{ i.comment }}<br>
+    {% endfor %}
+
+    <h2>{{ 'Outcome' }}</h2>
+    {% for i in outcome_all %}
+        {{ i.id_section__section }}
+        {% if 'None' not in i.id_category__category %}
+            {{ i.id_category__category }}
+        {% endif %}
+        {% if 'None' not in i.id_name__name %}
+            {{ i.id_name__name }}
+        {% endif %}
+        {{ i.sum_money }}
+        {{ i.currency }}
+        {{ i.date }}
+        {{ i.comment }}<br>
+    {% endfor %}
+
+
+{% endblock %}
