@@ -13,17 +13,15 @@
 <body>
     <aside>
         <img src="{% static 'main_page/img/dollar.png' %}" alt="Лого">
-        <span class="logo"><h5>Your finance helper</h5></span>
-        <h3>Navigation</h3>
+        <span class="logo"><h5>Текущие результаты</h5></span>
+        <h3>Навигация</h3>
         <ul>
-            <a href="{% url 'main_page' %}"><li><i class="fas fa-home"></i> Current financial results</li></a>
-            <a href=""><li><i class="fas fa-calendar-alt"></i> Financial calendar</li></a>
-            <a href=""><li><i class="fas fa-piggy-bank"></i> Savings</li></a>
-            <a href=""><li><i class="fas fa-list"></i> List of planned expenses</li></a>
-            <a href="{% url 'reports' %}"><li><i class="fas fa-chart-pie"></i> Reports</li></a>
-            <a href=""><li><i class="fas fa-cogs"></i> Settings</li></a>
-            <a href="{% url 'add_income' %}"><button class='btn btn-primary'>Add Income</button></a>
-            <a href="{% url 'add_outcome' %}"><button class='btn btn-danger'>Add Outcome</button></a>
+            <a href="{% url 'main_page' %}"><li><i class="fas fa-home"></i> Текущие финансовые результаты</li></a>
+            <a href=""><li><i class="fas fa-calendar-alt"></i> Финансовый календарь</li></a>
+            <a href=""><li><i class="fas fa-piggy-bank"></i> Сбережения</li></a>
+            <a href=""><li><i class="fas fa-list"></i> Список планируемых расходов</li></a>
+            <a href=""><li><i class="fas fa-chart-pie"></i> Отчёты</li></a>
+            <a href=""><li><i class="fas fa-cogs"></i> Настройки</li></a>
         </ul>
     </aside>
     <main>
