@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from main_page.models import *
+from main_page.models import GeneralTable
 from django.urls import reverse_lazy
 from django.views.generic import View, DetailView, ListView, UpdateView
-from .forms import *
+from .forms import TransactionUpdateForm, TransactionDeleteForm
 
 
 class ReportsButtonsView(View):
