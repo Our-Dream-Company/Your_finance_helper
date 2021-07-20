@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import *
+from .models import Section, Category, NameOperation, GeneralTable
 from django.db.models import Sum
 from django.views.generic import View, CreateView
 from django.urls import reverse_lazy
-from .forms import *
+from .forms import AddIncomeForm, AddOutcomeForm, AddNewSectionForm, AddNewCategoryForm, AddNewNameForm
 
 
 class IndexView(View):
