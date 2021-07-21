@@ -44,15 +44,15 @@ class NameOperation(models.Model):
 
 class GeneralTable(models.Model):
     class TypeOfTransaction(models.TextChoices):
-        INCOME = 'IN', ('Income')
-        OUTCOME = 'OUT', ('Outcome')
+        INCOME = 'IN'
+        OUTCOME = 'OUT'
 
     class Currency(models.TextChoices):
-        BYN = 'BYN', ('BYN')
-        USD = 'USD', ('USD')
-        EUR = 'EUR', ('EUR')
-        RUR = 'RUR', ('RUR')
-        PLZ = 'PLZ', ('PLZ')
+        BYN = 'BYN'
+        USD = 'USD'
+        EUR = 'EUR'
+        RUR = 'RUR'
+        PLZ = 'PLZ'
 
     type_of_transaction = models.CharField(
         choices=TypeOfTransaction.choices, max_length=3)
