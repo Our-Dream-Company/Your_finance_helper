@@ -1,0 +1,15 @@
+{% extends 'main_page/layout.html'%}
+
+{% block title %}Reports{% endblock %}
+
+
+{% block content %}
+    <div class="features">
+        <h2>{{ title }}</h2>
+        <h1>Reports</h1>
+        <a href="{% url 'detailed_current_financial_results' %}" class="btn btn-info btn-block">Current financial results</a><br>
+        <a href="" class="btn btn-success btn-block">Savings</a><br>
+        <a href="" class="btn btn-secondary btn-block">Planned expenses</a><br>
+        
+
+{% endblock %}

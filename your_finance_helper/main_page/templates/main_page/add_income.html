@@ -1,0 +1,25 @@
+{% extends 'main_page/layout.html'%}
+
+{% block title %}{{ 'Income' }}{% endblock %}
+
+
+{% block content %}
+        <form action="{% url 'add_income' %}" method="post">
+            {% csrf_token %}
+            {{ form.id_section }}<input type="button" value="New Section" class="btn btn-dark btn-sm" onClick='location.href="http://127.0.0.1:8000/add_new_section"'><br>
+            {{ form.id_category }}<input type="button" value="New Category" class="btn btn-dark btn-sm" onClick='location.href="http://127.0.0.1:8000/add_new_category"'><br>
+            {{ form.id_name }}<input type="button" value="New Name" class="btn btn-dark btn-sm" onClick='location.href="http://127.0.0.1:8000/add_new_name"'><br>
+            {{ form.sum_money }}<br>
+            {{ form.currency }}<br>
+            {{ form.date }}<br>
+            {{ form.comment }}<br>
+            <button class="btn btn-success" type="submit">Add Income</button>
+        </form>
+        <a href="{% url 'main_page' %}" class="btn btn-dark btn-sm">Back</a>
+{% endblock %}
+
+
+
+
+
+

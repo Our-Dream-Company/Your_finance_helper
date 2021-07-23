@@ -62,3 +62,27 @@ main .features p {
   max-width: 400px;
   margin: 20px auto;
 }
+.alert-primary {
+  float: left;
+  clear: both;
+  width: 380px;
+  margin: 10px 20%;
+  text-align: left;
+  margin-left: 10px;
+  margin-top: 20px;
+}
+
+.alert-danger {
+  float: right;
+  clear: both;
+  width: 380px;
+  margin: 10px 20%;
+  text-align: left;
+  margin-right: 10px;
+}
+
+form {
+  margin-left: 30%;
+  width: 300px;
+  margin-top: 50px;
+}
