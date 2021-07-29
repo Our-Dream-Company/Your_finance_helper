@@ -4,45 +4,39 @@
 
 
 {% block content %}
-    <div class="features">
-        <h2>{{ title }}</h2>
-        <h1>Текущие финансовые результаты</h1>
-                
-        <h2>{{ 'Income' }}</h2>
-        {% for el in in_section %}
-            <h5>{{ el.id_section__section }} {{ el.sum }}</h5>
-            {% for i in in_category %}
-                {% if el.id_section__id == i.id_category__to_section %}
-                <h6>{{ i.id_category__category}}</h6>
-                {% for j in in_name %}
-                    {% if i.id_category__id == j.id_name__to_category %}
-                        <h7>{{ j.id_name__name}} {{ j.sum }}</h7>
-                    {% endif %}
-                {% endfor %}
+        <h2>{{ 'Income' }}</h2><br>
+        {% for key_section, value_section in in_dict_section.items %}
+            <h5>{{ key_section }}</h5><br>
+            {% for key_category, value_category in in_dict_category.items %}
+                {% if value_section.id_section__id == value_category.id_category__to_section %}
+                <h6>{{ key_category }}</h6><br>
+                    {% for key_name, value_name in in_dict_name.items %}
+                        {% if value_category.id_category__id == value_name.id_name__to_category %}
+                        <h7>{{ key_name }}</h7> {{ value_name.sum }}<br>
+                        {% endif %}
+                    {% endfor %}               
                 {% endif %}
             {% endfor %}
-        {% endfor %}
-        <h1>{{ 'Общий доход' }} {{ in_all_sum.in_money }}</h1>
+    {% endfor %}
+    <h1>{{ 'Общий доход' }} {{ in_sum_all }}</h1>
 
-        <h2>{{ 'Outcome' }}</h2>
-        {% for el in out_section %}
-            <h5>{{ el.id_section__section }} {{ el.sum }}</h5>
-            {% for i in out_category %}
-                {% if el.id_section__id == i.id_category__to_section %}
-                <h6>{{ i.id_category__category}}</h6>
-                {% for j in out_name %}
-                    {% if i.id_category__id == j.id_name__to_category %}
-                        <h7>{{ j.id_name__name}} {{ j.sum }}</h7>
+    <h2>{{ 'Outcome' }}</h2><br>
+    {% for key_section, value_section in out_dict_section.items %}
+        <h5>{{ key_section }}</h5><br>
+        {% for key_category, value_category in out_dict_category.items %}
+            {% if value_section.id_section__id == value_category.id_category__to_section %}
+            <h6>{{ key_category }}</h6><br>
+                {% for key_name, value_name in out_dict_name.items %}
+                    {% if value_category.id_category__id == value_name.id_name__to_category %}
+                    <h7>{{ key_name }}{{ value_name.sum }}</h7><br>
                     {% endif %}
-                {% endfor %}
-                {% endif %}
-            {% endfor %}
+                {% endfor %}               
+            {% endif %}
         {% endfor %}
-        <h1>{{ 'Общий расход' }}{{ out_all_sum.out_money }}</h1>
+{% endfor %}
+<h1>{{ 'Общий расход' }} {{ out_sum_all }}</h1>
 
-        {{ 'Баланс ' }}{{ in_all_sum.in_money|add:out_all_sum.out_money }}
-        
-
+{{ 'Баланс ' }}{{ in_sum_all|add:out_sum_all }}
 
 {% endblock %}
 
