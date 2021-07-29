@@ -122,7 +122,10 @@ LOGGING = {
     'loggers': {
         '': {
             'level': 'INFO',
-            'handlers': ['console'],
+            'handlers': ['console']},
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console']
         }
     }
 }
