@@ -24,14 +24,12 @@ class IndexView(View):
             return dict_section, dict_category, dict_name, sum_all
 
         in_dict_section, in_dict_category, in_dict_name, in_sum_all = split_queryset(
-            GeneralTable.objects.select_related('id_section__id', 'id_section__section', 'id_category__id', 'id_category__category',
-                                                'id_category__to_section', 'id_name__name', 'id_name__to_category').filter(
+            GeneralTable.objects.filter(
                 type_of_transaction='IN').values('id_section__id', 'id_section__section', 'id_category__id', 'id_category__category',
                                                  'id_category__to_section', 'id_name__name', 'id_name__to_category').annotate(sum=Sum('sum_money')).order_by('id_section'))
 
         out_dict_section, out_dict_category, out_dict_name, out_sum_all = split_queryset(
-            GeneralTable.objects.select_related('id_section__id', 'id_section__section', 'id_category__id', 'id_category__category',
-                                                'id_category__to_section', 'id_name__name', 'id_name__to_category').filter(
+            GeneralTable.objects.filter(
                 type_of_transaction='OUT').values('id_section__id', 'id_section__section', 'id_category__id', 'id_category__category',
                                                   'id_category__to_section', 'id_name__name', 'id_name__to_category').annotate(sum=Sum('sum_money')).order_by('id_section'))
 
