@@ -1,65 +1,96 @@
-import datetime
-from django.http import response
-from django.http import HttpResponsePermanentRedirect
 from django.test import TestCase
 from decimal import Decimal
-from unittest import mock
-from django.test.client import Client
 from main_page.models import Section, Category, NameOperation, GeneralTable
-from django.urls import reverse, resolve
-from reports.views import ReportsButtonsView, DetailedCurrentFinancialResultsView, TransactionView, TransactionUpdateView, TransactionDeleteView
+from django.urls import reverse
+from reports.forms import TransactionUpdateForm, TransactionDeleteForm
 
 
 class ReportsButtonsViewTest(TestCase):
-    def test_view_url_reports(self):
-        resp = self.client.get('')
-        self.assertEqual(resp.status_code, 200)
-
-    def test_view_url_accessible_by_name_reports(self):
-        resp = self.client.get(reverse('reports'))
-        self.assertEqual(resp.status_code, 200)
-
     def test_view_uses_correct_template_reports(self):
         resp = self.client.get(reverse('reports'))
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'reports/reports.html')
 
-    def test_main_page_url_resolves_reports_name(self):
-        resolver = resolve('/reports/')
-        self.assertEqual(resolver.view_name, 'reports')
-        self.assertEqual(resolver.url_name, 'reports')
-
-    def test_url_resolves_to_reports_transactions_view(self):
-        found = resolve('/reports/')
-        self.assertEqual(found.func.view_class, ReportsButtonsView)
-
 
 class DetailedCurrentFinancialResultsViewTest(TestCase):
-    def test_view_url_detailed_current_financial_results_reports(self):
-        resp = self.client.get('/reports/detailed_current_financial_results')
-        self.assertEqual(resp.status_code, 200)
-
-    def test_view_url_accessible_by_name_detailed_current_financial_results_reports(self):
-        resp = self.client.get(reverse('detailed_current_financial_results'))
-        self.assertEqual(resp.status_code, 200)
-
-    def test_view_uses_correct_template__detailed_current_financial_results_reports(self):
+    def test_view_uses_correct_template_detailed_current_financial_results_reports(self):
         resp = self.client.get(reverse('detailed_current_financial_results'))
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(
             resp, 'reports/detailed_current_financial_results.html')
 
-    def test_main_page_url_resolves_detailed_current_financial_results_reports_name(self):
-        resolver = resolve('/reports/detailed_current_financial_results')
-        self.assertEqual(resolver.view_name,
-                         'detailed_current_financial_results')
-        self.assertEqual(resolver.url_name,
-                         'detailed_current_financial_results')
-
-    def test_url_resolves_to_reports_transactions_view(self):
-        found = resolve('/reports/detailed_current_financial_results')
-        self.assertEqual(found.func.view_class,
-                         DetailedCurrentFinancialResultsView)
+    def test_correct_data_for_template_in_detailed_current_financial_results_reports(self):
+        self.client.post(
+            '/add_new_section', {'section': "Инвестиции"})
+        self.client.post(
+            '/add_new_category', {'category': "Банки", 'to_section': Section.objects.last().id})
+        self.client.post(
+            '/add_new_name', {'name': 'Депозит', 'to_category': Category.objects.last().id})
+        self.client.post(
+            '/add_income', {'type_of_transaction': "IN",
+                            'id_section': Section.objects.last().id,
+                            'id_category': Category.objects.last().id,
+                            'id_name': NameOperation.objects.last().id,
+                            'sum_money': Decimal('50000.00'),
+                            'currency': 'BYN',
+                            'date': "2021-06-01",
+                            'comment': 'ква',
+                            'enabled': False
+                            }
+        )
+        self.client.post(
+            '/add_new_section', {'section': "Мои расходы"})
+        self.client.post(
+            '/add_new_category', {'category': "Аптека", 'to_section': Section.objects.last().id})
+        self.client.post(
+            '/add_new_name', {'name': 'Антибиотики', 'to_category': Category.objects.last().id})
+        self.client.post(
+            '/add_outcome', {'type_of_transaction': "OUT",
+                             'id_section': Section.objects.last().id,
+                             'id_category': Category.objects.last().id,
+                             'id_name': NameOperation.objects.last().id,
+                             'sum_money': Decimal('-500.00'),
+                             'currency': 'BYN',
+                             'date': "2021-06-03",
+                             'comment': 'кря',
+                             'enabled': False
+                             }
+        )
+        response = self.client.get(
+            reverse('detailed_current_financial_results'))
+        self.assertEqual(
+            str(response.context['income_all'][0].type_of_transaction), 'IN')
+        self.assertEqual(
+            str(response.context['income_all'][0].id_section), 'Инвестиции')
+        self.assertEqual(
+            str(response.context['income_all'][0].id_category), 'Банки')
+        self.assertEqual(
+            str(response.context['income_all'][0].id_name), 'Депозит')
+        self.assertEqual(
+            str(response.context['income_all'][0].sum_money), '50000.00')
+        self.assertEqual(
+            str(response.context['income_all'][0].currency), 'BYN')
+        self.assertEqual(
+            str(response.context['income_all'][0].date), '2021-06-01')
+        self.assertEqual(str(response.context['income_all'][0].comment), 'ква')
+        self.assertEqual(response.context['income_all'][0].enabled, False)
+        self.assertEqual(
+            str(response.context['outcome_all'][0].type_of_transaction), 'OUT')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_section), 'Мои расходы')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_category), 'Аптека')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_name), 'Антибиотики')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].sum_money), '-500.00')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].currency), 'BYN')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].date), '2021-06-03')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].comment), 'кря')
+        self.assertEqual(response.context['outcome_all'][0].enabled, False)
 
 
 class TransactionViewTest(TestCase):
@@ -82,16 +113,6 @@ class TransactionViewTest(TestCase):
             enabled=False
         )
 
-    def test_view_url_one_transaction_reports(self):
-        view = self.client.get(
-            '/reports/detailed_current_financial_results/' + str(GeneralTable.objects.last().id))
-        self.assertEqual(view.status_code, 200)
-
-    def test_view_url_accessible_by_name_one_transaction_reports(self):
-        resp = self.client.get(reverse('transaction_view', args=[
-                               GeneralTable.objects.last().id]))
-        self.assertEqual(resp.status_code, 200)
-
     def test_view_uses_correct_template_one_transaction_reports(self):
         resp = self.client.get(reverse('transaction_view', args=[
                                GeneralTable.objects.last().id]))
@@ -99,18 +120,26 @@ class TransactionViewTest(TestCase):
         self.assertTemplateUsed(
             resp, 'reports/transaction_view.html')
 
-    def test_main_page_url_resolves_one_transaction_reports_name(self):
-        resolver = resolve(
-            '/reports/detailed_current_financial_results/' + str(GeneralTable.objects.last().id))
-        self.assertEqual(resolver.view_name,
-                         'transaction_view')
-        self.assertEqual(resolver.url_name,
-                         'transaction_view')
-
-    def test_url_resolves_to_reports_transactions_view(self):
-        found = resolve(
-            '/reports/detailed_current_financial_results/' + str(GeneralTable.objects.last().id))
-        self.assertEqual(found.func.view_class, TransactionView)
+    def test_correct_data_for_template_in_one_transaction_reports(self):
+        response = self.client.get(
+            reverse('detailed_current_financial_results'))
+        self.assertEqual(
+            str(response.context['outcome_all'][0].type_of_transaction), 'OUT')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_section), 'Мои расходы')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_category), 'Мелкие расходы')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_name), 'Магазин')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].sum_money), '-5000.00')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].currency), 'BYN')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].date), '2021-06-01')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].comment), 'ква')
+        self.assertEqual(response.context['outcome_all'][0].enabled, False)
 
 
 class TransactionUpdateViewTest(TestCase):
@@ -120,7 +149,7 @@ class TransactionUpdateViewTest(TestCase):
             category="Мелкие расходы", to_section=section)
         name = NameOperation.objects.create(
             name="Магазин", to_category=category)
-        general_table = GeneralTable.objects.create(
+        GeneralTable.objects.create(
             type_of_transaction="OUT",
             id_section=section,
             id_category=category,
@@ -132,16 +161,6 @@ class TransactionUpdateViewTest(TestCase):
             enabled=False
         )
 
-    def test_view_url_transaction_update_reports(self):
-        view = self.client.get(
-            '/reports/detailed_current_financial_results/' + str(GeneralTable.objects.last().id) + '/update')
-        self.assertEqual(view.status_code, 200)
-
-    def test_view_url_accessible_by_name_transaction_update_reports(self):
-        resp = self.client.get(reverse('transaction_update', args=[
-                               GeneralTable.objects.last().id]))
-        self.assertEqual(resp.status_code, 200)
-
     def test_view_uses_correct_template_transaction_update_reports(self):
         resp = self.client.get(reverse('transaction_update', args=[
                                GeneralTable.objects.last().id]))
@@ -149,18 +168,11 @@ class TransactionUpdateViewTest(TestCase):
         self.assertTemplateUsed(
             resp, 'reports/transaction_update.html')
 
-    def test_main_page_url_resolves_transaction_update_reports(self):
-        resolver = resolve(
-            '/reports/detailed_current_financial_results/' + str(GeneralTable.objects.last().id) + '/update')
-        self.assertEqual(resolver.view_name,
-                         'transaction_update')
-        self.assertEqual(resolver.url_name,
-                         'transaction_update')
-
-    def test_url_resolves_to_reports_transactions_view(self):
-        found = resolve(
-            '/reports/detailed_current_financial_results/' + str(GeneralTable.objects.last().id) + '/update')
-        self.assertEqual(found.func.view_class, TransactionUpdateView)
+    def test_correct_form_in_transaction_update_reports(self):
+        response = self.client.get(reverse('transaction_update', args=[
+            GeneralTable.objects.last().id]))
+        self.assertIsInstance(
+            response.context['form'], TransactionUpdateForm)
 
 
 class TransactionDeleteViewTest(TestCase):
@@ -182,16 +194,6 @@ class TransactionDeleteViewTest(TestCase):
             enabled=False
         )
 
-    def test_view_url_transaction_delete_reports(self):
-        view = self.client.get(
-            '/reports/detailed_current_financial_results/' + str(GeneralTable.objects.last().id) + '/delete')
-        self.assertEqual(view.status_code, 200)
-
-    def test_view_url_accessible_by_name_transaction_delete_reports(self):
-        resp = self.client.get(reverse('transaction_delete', args=[
-                               GeneralTable.objects.last().id]))
-        self.assertEqual(resp.status_code, 200)
-
     def test_view_uses_correct_template_transaction_delete_reports(self):
         resp = self.client.get(reverse('transaction_delete', args=[
                                GeneralTable.objects.last().id]))
@@ -199,15 +201,8 @@ class TransactionDeleteViewTest(TestCase):
         self.assertTemplateUsed(
             resp, 'reports/transaction_delete.html')
 
-    def test_main_page_url_resolves_transaction_delete_reports(self):
-        resolver = resolve(
-            '/reports/detailed_current_financial_results/' + str(GeneralTable.objects.last().id) + '/delete')
-        self.assertEqual(resolver.view_name,
-                         'transaction_delete')
-        self.assertEqual(resolver.url_name,
-                         'transaction_delete')
-
-    def test_url_resolves_to_reports_transactions_view(self):
-        found = resolve(
-            '/reports/detailed_current_financial_results/' + str(GeneralTable.objects.last().id) + '/delete')
-        self.assertEqual(found.func.view_class, TransactionDeleteView)
+    def test_correct_form_in_transaction_update_reports(self):
+        response = self.client.get(reverse('transaction_delete', args=[
+            GeneralTable.objects.last().id]))
+        self.assertIsInstance(
+            response.context['form'], TransactionDeleteForm)
