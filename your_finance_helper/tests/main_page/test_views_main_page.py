@@ -200,33 +200,20 @@ class AddNewSectionViewTest(TestCase):
 
     def test_published_post_add_new_section(self):
         response = self.client.post(
-            '/add_new_section', {'section': "Инвестиции"})
-        self.assertEqual(Section.objects.last().section, "Инвестиции")
-        self.assertRedirects(response, '/add_new_section', status_code=302)
-
-    def test_no_section_in_add_new_section(self):
-        responce = Section.objects.last().section
-        self.assertFalse(responce == 'Друзья')
-
-    def test_non_existent_section_in_add_new_section(self):
-        try:
-            Section.objects.get(section='Здоровье')
-        except:
-            print('"Здоровье" section does not exist.')
+            reverse('add_new_section'), {'section': "Инвестиции"})
+        self.assertRedirects(response, reverse('add_new_section'))
 
     def test_post_without_data_in_add_new_section(self):
-        try:
-            self.client.post('/add_new_section', {'section': ''})
-            self.assertEqual(Section.objects.last().section, '')
-        except:
-            print('Fill in the section field')
+        response = self.client.post(
+            reverse('add_new_section'), {'section': ''})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Section.objects.last().section == "Семья")
 
-    def test_post_with_wrong_key_in_add_new_section(self):
-        try:
-            self.client.post('/add_new_section', {'category': 'Здоровье'})
-            self.assertEqual(Section.objects.last().section, 'Здоровье')
-        except:
-            print('Wrong key for section')
+    def test_post_with_invalid_key_in_add_new_section(self):
+        response = self.client.post(
+            reverse('add_new_section'), {'invalid_key': 'Здоровье'})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Section.objects.last().section == "Семья")
 
     def test_correct_form_in_add_new_section(self):
         response = self.client.get(reverse('add_new_section'))
@@ -235,7 +222,7 @@ class AddNewSectionViewTest(TestCase):
 
 
 class AddNewCategoryViewTest(TestCase):
-    @classmethod
+    @ classmethod
     def setUpTestData(cls):
         section = Section.objects.create(section="Спорт")
         Category.objects.create(
@@ -248,41 +235,25 @@ class AddNewCategoryViewTest(TestCase):
 
     def test_published_post_add_new_category(self):
         self.client.post(
-            '/add_new_section', {'section': "Инвестиции"})
+            reverse('add_new_section'), {'section': "Инвестиции"})
         response_category = self.client.post(
-            '/add_new_category', {'category': "Банки", 'to_section': Section.objects.last().id})
-        self.assertEqual(Category.objects.last().category, "Банки")
-        self.assertRedirects(
-            response_category, '/add_new_category', status_code=302)
-
-    def test_no_category_in_add_new_category(self):
-        responce = Category.objects.last().category
-        self.assertFalse(responce == 'Спортивное питание')
-
-    def test_non_existent_category_in_add_new_category(self):
-        try:
-            Category.objects.get(category='Абонемент')
-        except:
-            print('"Абонемент" category does not exist.')
+            reverse('add_new_category'), {'category': "Банки", 'to_section': Section.objects.last().id})
+        self.assertRedirects(response_category, reverse('add_new_category'))
 
     def test_post_without_data_in_add_new_category(self):
-        try:
-            self.client.post('/add_new_section', {'section': "Инвестиции"})
-            self.client.post(
-                '/add_new_category', {'category': "", 'to_section': Section.objects.last().id})
-            self.assertEqual(Category.objects.last().section, '')
-        except:
-            print('Fill in the category field')
+        self.client.post(reverse('add_new_section'), {'section': "Инвестиции"})
+        response = self.client.post(
+            reverse('add_new_category'), {'category': "", 'to_section': Section.objects.last().id})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Category.objects.last().category == "Экипировка")
 
-    def test_post_with_wrong_key_in_add_new_category(self):
-        try:
-            self.client.post('/add_new_section',
-                             {'section': "Дополнительный доход"})
-            self.client.post(
-                '/add_new_category', {'name': "Банки", 'to_section': Section.objects.last().id})
-            self.assertEqual(Category.objects.last().section, 'Банки')
-        except:
-            print('Wrong key for category')
+    def test_post_with_invalid_key_in_add_new_category(self):
+        self.client.post(reverse('add_new_section'),
+                         {'section': "Дополнительный доход"})
+        response = self.client.post(
+            reverse('add_new_category'), {'invalid_key': "Банки", 'to_section': Section.objects.last().id})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Category.objects.last().category == "Экипировка")
 
     def test_correct_form_in_add_new_category(self):
         response = self.client.get(reverse('add_new_category'))
@@ -291,7 +262,7 @@ class AddNewCategoryViewTest(TestCase):
 
 
 class AddNewNameViewTest(TestCase):
-    @classmethod
+    @ classmethod
     def setUpTestData(cls):
         section = Section.objects.create(section="Семья")
         category = Category.objects.create(
@@ -306,47 +277,32 @@ class AddNewNameViewTest(TestCase):
 
     def test_published_post_add_new_name_name(self):
         self.client.post(
-            '/add_new_section', {'section': "Инвестиции"})
+            reverse('add_new_section'), {'section': "Инвестиции"})
         self.client.post(
-            '/add_new_category', {'category': "Банки", 'to_section': Section.objects.last().id})
+            reverse('add_new_category'), {'category': "Банки", 'to_section': Section.objects.last().id})
         response_name = self.client.post(
-            '/add_new_name', {'name': 'Депозит', 'to_category': Category.objects.last().id})
-        self.assertEqual(NameOperation.objects.last().name, "Депозит")
-        self.assertRedirects(response_name, '/add_new_name', status_code=302)
-
-    def test_no_name_in_add_new_name(self):
-        responce = NameOperation.objects.last().name
-        self.assertFalse(responce == 'Расходы')
-
-    def test_non_existent_name_in_add_new_name(self):
-        try:
-            NameOperation.objects.get(name='Аптека')
-        except:
-            print('"Аптека" name does not exist.')
+            reverse('add_new_name'), {'name': 'Депозит', 'to_category': Category.objects.last().id})
+        self.assertRedirects(response_name, reverse('add_new_name'))
 
     def test_post_without_data_in_add_new_name(self):
-        try:
-            self.client.post(
-                '/add_new_section', {'section': "Инвестиции"})
-            self.client.post(
-                '/add_new_category', {'category': "Банки", 'to_section': Section.objects.last().id})
-            self.client.post(
-                '/add_new_name', {'name': '', 'to_category': Category.objects.last().id})
-            self.assertEqual(NameOperation.objects.last().section, '')
-        except:
-            print('Fill in the name field')
+        self.client.post(
+            reverse('add_new_section'), {'section': "Инвестиции"})
+        self.client.post(
+            reverse('add_new_category'), {'category': "Банки", 'to_section': Section.objects.last().id})
+        response = self.client.post(
+            reverse('add_new_name'), {'name': '', 'to_category': Category.objects.last().id})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(NameOperation.objects.last().name == "День Рождение")
 
-    def test_post_with_wrong_key_in_add_new_name(self):
-        try:
-            self.client.post(
-                '/add_new_section', {'section': "Инвестиции"})
-            self.client.post(
-                '/add_new_category', {'category': "Банки", 'to_section': Section.objects.last().id})
-            self.client.post(
-                '/add_new_name', {'sum_money': 'Депозит', 'to_category': Category.objects.last().id})
-            self.assertEqual(Category.objects.last().section, 'Депозит')
-        except:
-            print('Wrong key for name')
+    def test_post_with_invalid_key_in_add_new_name(self):
+        self.client.post(
+            reverse('add_new_section'), {'section': "Инвестиции"})
+        self.client.post(
+            reverse('add_new_category'), {'category': "Банки", 'to_section': Section.objects.last().id})
+        response = self.client.post(
+            reverse('add_new_name'), {'invalid_key': 'Депозит', 'to_category': Category.objects.last().id})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(NameOperation.objects.last().name == "День Рождение")
 
     def test_correct_form_in_add_new_name(self):
         response = self.client.get(reverse('add_new_name'))

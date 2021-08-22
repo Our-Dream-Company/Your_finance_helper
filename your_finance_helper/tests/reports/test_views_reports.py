@@ -168,6 +168,27 @@ class TransactionUpdateViewTest(TestCase):
         self.assertTemplateUsed(
             resp, 'reports/transaction_update.html')
 
+    def test_correct_data_for_template_in_transaction_update_reports(self):
+        response = self.client.get(
+            reverse('detailed_current_financial_results'))
+        self.assertEqual(
+            str(response.context['outcome_all'][0].type_of_transaction), 'OUT')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_section), 'Мои расходы')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_category), 'Мелкие расходы')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_name), 'Магазин')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].sum_money), '-5000.00')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].currency), 'BYN')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].date), '2021-06-01')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].comment), 'ква')
+        self.assertEqual(response.context['outcome_all'][0].enabled, False)
+
     def test_correct_form_in_transaction_update_reports(self):
         response = self.client.get(reverse('transaction_update', args=[
             GeneralTable.objects.last().id]))
@@ -200,6 +221,27 @@ class TransactionDeleteViewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(
             resp, 'reports/transaction_delete.html')
+
+    def test_correct_data_for_template_in_transaction_delete_reports(self):
+        response = self.client.get(
+            reverse('detailed_current_financial_results'))
+        self.assertEqual(
+            str(response.context['outcome_all'][0].type_of_transaction), 'OUT')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_section), 'Мои расходы')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_category), 'Мелкие расходы')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].id_name), 'Магазин')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].sum_money), '-5000.00')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].currency), 'BYN')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].date), '2021-06-01')
+        self.assertEqual(
+            str(response.context['outcome_all'][0].comment), 'ква')
+        self.assertEqual(response.context['outcome_all'][0].enabled, False)
 
     def test_correct_form_in_transaction_update_reports(self):
         response = self.client.get(reverse('transaction_delete', args=[
