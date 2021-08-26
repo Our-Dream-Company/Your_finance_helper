@@ -5,14 +5,14 @@ from django.urls import reverse
 from reports.forms import TransactionUpdateForm, TransactionDeleteForm
 
 
-class ReportsButtonsViewTest(TestCase):
+class TestReportsButtonsView(TestCase):
     def test_view_uses_correct_template_reports(self):
         resp = self.client.get(reverse('reports'))
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'reports/reports.html')
 
 
-class DetailedCurrentFinancialResultsViewTest(TestCase):
+class TestDetailedCurrentFinancialResultsView(TestCase):
     def test_view_uses_correct_template_detailed_current_financial_results_reports(self):
         resp = self.client.get(reverse('detailed_current_financial_results'))
         self.assertEqual(resp.status_code, 200)
@@ -93,7 +93,7 @@ class DetailedCurrentFinancialResultsViewTest(TestCase):
         self.assertEqual(response.context['outcome_all'][0].enabled, False)
 
 
-class TransactionViewTest(TestCase):
+class TestTransactionView(TestCase):
     @classmethod
     def setUpTestData(cls):
         section = Section.objects.create(section="Мои расходы")
@@ -142,7 +142,7 @@ class TransactionViewTest(TestCase):
         self.assertEqual(response.context['outcome_all'][0].enabled, False)
 
 
-class TransactionUpdateViewTest(TestCase):
+class TestTransactionUpdateView(TestCase):
     def setUp(self):
         section = Section.objects.create(section="Мои расходы")
         category = Category.objects.create(
@@ -196,7 +196,7 @@ class TransactionUpdateViewTest(TestCase):
             response.context['form'], TransactionUpdateForm)
 
 
-class TransactionDeleteViewTest(TestCase):
+class TestTransactionDeleteView(TestCase):
     def setUp(self):
         section = Section.objects.create(section="Мои расходы")
         category = Category.objects.create(

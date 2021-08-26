@@ -6,7 +6,7 @@ from main_page.forms import AddIncomeForm, AddOutcomeForm, AddNewSectionForm, Ad
 from django.urls import reverse
 
 
-class IndexViewTest(TestCase):
+class TestIndexView(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -91,7 +91,7 @@ class IndexViewTest(TestCase):
                         == response.context['out_dict_name']['Магазин']['id_name__to_category'])
 
 
-class AddIncomeViewTest(TestCase):
+class TestAddIncomeView(TestCase):
     def test_view_uses_correct_template_add_income(self):
         resp = self.client.get(reverse('add_income'))
         self.assertEqual(resp.status_code, 200)
@@ -138,7 +138,7 @@ class AddIncomeViewTest(TestCase):
             response.context['form'].instance.type_of_transaction, 'IN')
 
 
-class AddOutcomeViewTest(TestCase):
+class TestAddOutcomeView(TestCase):
     def test_view_uses_correct_template_add_outcome(self):
         resp = self.client.get(reverse('add_outcome'))
         self.assertEqual(resp.status_code, 200)
@@ -185,7 +185,7 @@ class AddOutcomeViewTest(TestCase):
             response.context['form'].instance.type_of_transaction, 'OUT')
 
 
-class AddNewSectionViewTest(TestCase):
+class TestAddNewSectionView(TestCase):
     @classmethod
     def setUpTestData(cls):
         Section.objects.create(
@@ -221,7 +221,7 @@ class AddNewSectionViewTest(TestCase):
             response.context['form'], AddNewSectionForm)
 
 
-class AddNewCategoryViewTest(TestCase):
+class TestAddNewCategoryView(TestCase):
     @ classmethod
     def setUpTestData(cls):
         section = Section.objects.create(section="Спорт")
@@ -261,7 +261,7 @@ class AddNewCategoryViewTest(TestCase):
             response.context['form'], AddNewCategoryForm)
 
 
-class AddNewNameViewTest(TestCase):
+class TestAddNewNameView(TestCase):
     @ classmethod
     def setUpTestData(cls):
         section = Section.objects.create(section="Семья")
