@@ -6,7 +6,7 @@ from main_page.forms import AddIncomeForm, AddOutcomeForm, AddNewSectionForm, Ad
 from django.urls import reverse
 
 
-class TestIndexView(TestCase):
+class IndexViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -91,7 +91,7 @@ class TestIndexView(TestCase):
                         == response.context['out_dict_name']['Магазин']['id_name__to_category'])
 
 
-class TestAddIncomeView(TestCase):
+class AddIncomeViewTest(TestCase):
     def test_view_uses_correct_template_add_income(self):
         resp = self.client.get(reverse('add_income'))
         self.assertEqual(resp.status_code, 200)
@@ -138,7 +138,7 @@ class TestAddIncomeView(TestCase):
             response.context['form'].instance.type_of_transaction, 'IN')
 
 
-class TestAddOutcomeView(TestCase):
+class AddOutcomeViewTest(TestCase):
     def test_view_uses_correct_template_add_outcome(self):
         resp = self.client.get(reverse('add_outcome'))
         self.assertEqual(resp.status_code, 200)
@@ -185,7 +185,7 @@ class TestAddOutcomeView(TestCase):
             response.context['form'].instance.type_of_transaction, 'OUT')
 
 
-class TestAddNewSectionView(TestCase):
+class AddNewSectionViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         Section.objects.create(
@@ -206,14 +206,12 @@ class TestAddNewSectionView(TestCase):
     def test_post_without_data_in_add_new_section(self):
         response = self.client.post(
             reverse('add_new_section'), {'section': ''})
-        # Почему возвращается 200, если должна 400?
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Section.objects.last().section == "Семья")
 
     def test_post_with_invalid_key_in_add_new_section(self):
         response = self.client.post(
             reverse('add_new_section'), {'invalid_key': 'Здоровье'})
-        # Почему возвращается 200, если должна 400?
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Section.objects.last().section == "Семья")
 
@@ -223,7 +221,7 @@ class TestAddNewSectionView(TestCase):
             response.context['form'], AddNewSectionForm)
 
 
-class TestAddNewCategoryView(TestCase):
+class AddNewCategoryViewTest(TestCase):
     @ classmethod
     def setUpTestData(cls):
         section = Section.objects.create(section="Спорт")
@@ -235,7 +233,6 @@ class TestAddNewCategoryView(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'main_page/add_new_category.html')
 
-    # Нет кейса "несуществующая секция" И "секция не передана"
     def test_published_post_add_new_category(self):
         self.client.post(
             reverse('add_new_section'), {'section': "Инвестиции"})
@@ -247,7 +244,6 @@ class TestAddNewCategoryView(TestCase):
         self.client.post(reverse('add_new_section'), {'section': "Инвестиции"})
         response = self.client.post(
             reverse('add_new_category'), {'category': "", 'to_section': Section.objects.last().id})
-        # Почему возвращается 200, если должна 400?
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Category.objects.last().category == "Экипировка")
 
@@ -256,7 +252,6 @@ class TestAddNewCategoryView(TestCase):
                          {'section': "Дополнительный доход"})
         response = self.client.post(
             reverse('add_new_category'), {'invalid_key': "Банки", 'to_section': Section.objects.last().id})
-        # Почему возвращается 200, если должна 400?
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Category.objects.last().category == "Экипировка")
 
@@ -266,7 +261,7 @@ class TestAddNewCategoryView(TestCase):
             response.context['form'], AddNewCategoryForm)
 
 
-class TestAddNewNameView(TestCase):
+class AddNewNameViewTest(TestCase):
     @ classmethod
     def setUpTestData(cls):
         section = Section.objects.create(section="Семья")
@@ -289,7 +284,6 @@ class TestAddNewNameView(TestCase):
             reverse('add_new_name'), {'name': 'Депозит', 'to_category': Category.objects.last().id})
         self.assertRedirects(response_name, reverse('add_new_name'))
 
-    # Нет кейса "несуществующая секция" И "секция не передана"
     def test_post_without_data_in_add_new_name(self):
         self.client.post(
             reverse('add_new_section'), {'section': "Инвестиции"})
@@ -297,7 +291,6 @@ class TestAddNewNameView(TestCase):
             reverse('add_new_category'), {'category': "Банки", 'to_section': Section.objects.last().id})
         response = self.client.post(
             reverse('add_new_name'), {'name': '', 'to_category': Category.objects.last().id})
-        # Почему возвращается 200, если должна 400?
         self.assertEqual(response.status_code, 200)
         self.assertTrue(NameOperation.objects.last().name == "День Рождение")
 
@@ -308,7 +301,6 @@ class TestAddNewNameView(TestCase):
             reverse('add_new_category'), {'category': "Банки", 'to_section': Section.objects.last().id})
         response = self.client.post(
             reverse('add_new_name'), {'invalid_key': 'Депозит', 'to_category': Category.objects.last().id})
-        # Почему возвращается 200, если должна 400?
         self.assertEqual(response.status_code, 200)
         self.assertTrue(NameOperation.objects.last().name == "День Рождение")
 
