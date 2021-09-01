@@ -212,6 +212,7 @@ class TestAddNewSectionView(TestCase):
     def test_post_with_invalid_key_in_add_new_section(self):
         response = self.client.post(
             reverse('add_new_section'), {'invalid_key': 'Здоровье'})
+        # Почему возвращается 200, если должна 400?
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Section.objects.last().section == "Семья")
 
