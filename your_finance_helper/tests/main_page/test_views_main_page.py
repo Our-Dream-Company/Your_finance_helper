@@ -1,4 +1,6 @@
 import datetime
+from django.http import response
+from annoying.functions import get_object_or_None
 from django.test import TestCase
 from decimal import Decimal
 from main_page.models import Section, Category, NameOperation, GeneralTable
@@ -206,15 +208,22 @@ class TestAddNewSectionView(TestCase):
     def test_post_without_data_in_add_new_section(self):
         response = self.client.post(
             reverse('add_new_section'), {'section': ''})
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(Section.objects.last().section == "Семья")
+        self.assertFormError(response, 'form',
+                             'section', 'Обязательное поле.')
 
     def test_post_with_invalid_key_in_add_new_section(self):
-        response = self.client.post(
-            reverse('add_new_section'), {'invalid_key': 'Здоровье'})
-        # Почему возвращается 200, если должна 400?
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(Section.objects.last().section == "Семья")
+        self.client.post(reverse('add_new_section'),
+                         {'invalid_key': 'Здоровье'})
+        with self.assertRaises(Section.DoesNotExist):
+            Section.objects.get(section='Здоровье')
+
+    def test_post_with_nonexistent_section_in_add_new_section(self):
+        with self.assertRaises(Section.DoesNotExist):
+            Section.objects.get(id=15)
+
+    def test_post_with_section_not_transferred_in_add_new_section(self):
+        response = self.client.post(reverse('add_new_section'), {})
+        self.assertFormError(response, 'form', '', None)
 
     def test_correct_form_in_add_new_section(self):
         response = self.client.get(reverse('add_new_section'))
@@ -236,7 +245,7 @@ class TestAddNewCategoryView(TestCase):
 
     def test_published_post_add_new_category(self):
         self.client.post(
-            reverse('add_new_section'), {'section': "Инвестиции"})
+            reverse('add_new_section'), {'section': "Инвестиции"})    # Нет кейса "несуществующая секция" И "секция не передана"
         response_category = self.client.post(
             reverse('add_new_category'), {'category': "Банки", 'to_section': Section.objects.last().id})
         self.assertRedirects(response_category, reverse('add_new_category'))
@@ -245,16 +254,24 @@ class TestAddNewCategoryView(TestCase):
         self.client.post(reverse('add_new_section'), {'section': "Инвестиции"})
         response = self.client.post(
             reverse('add_new_category'), {'category': "", 'to_section': Section.objects.last().id})
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(Category.objects.last().category == "Экипировка")
+        self.assertFormError(response, 'form', 'category',
+                             'Обязательное поле.')
 
     def test_post_with_invalid_key_in_add_new_category(self):
         self.client.post(reverse('add_new_section'),
                          {'section': "Дополнительный доход"})
-        response = self.client.post(
+        self.client.post(
             reverse('add_new_category'), {'invalid_key': "Банки", 'to_section': Section.objects.last().id})
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(Category.objects.last().category == "Экипировка")
+        with self.assertRaises(Category.DoesNotExist):
+            Category.objects.get(category='Банки')
+
+    def test_post_with_nonexistent_section_in_add_new_category(self):
+        with self.assertRaises(Category.DoesNotExist):
+            Category.objects.get(id=15)
+
+    def test_post_with_section_not_transferred_in_add_new_category(self):
+        response = self.client.post(reverse('add_new_category'), {})
+        self.assertFormError(response, 'form', '', None)
 
     def test_correct_form_in_add_new_category(self):
         response = self.client.get(reverse('add_new_category'))
@@ -292,18 +309,25 @@ class TestAddNewNameView(TestCase):
             reverse('add_new_category'), {'category': "Банки", 'to_section': Section.objects.last().id})
         response = self.client.post(
             reverse('add_new_name'), {'name': '', 'to_category': Category.objects.last().id})
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(NameOperation.objects.last().name == "День Рождение")
+        self.assertFormError(response, 'form', 'name', 'Обязательное поле.')
 
     def test_post_with_invalid_key_in_add_new_name(self):
         self.client.post(
             reverse('add_new_section'), {'section': "Инвестиции"})
         self.client.post(
             reverse('add_new_category'), {'category': "Банки", 'to_section': Section.objects.last().id})
-        response = self.client.post(
+        self.client.post(
             reverse('add_new_name'), {'invalid_key': 'Депозит', 'to_category': Category.objects.last().id})
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(NameOperation.objects.last().name == "День Рождение")
+        with self.assertRaises(NameOperation.DoesNotExist):
+            NameOperation.objects.get(name='Депозит')
+
+    def test_post_with_nonexistent_section_in_add_new_name(self):
+        with self.assertRaises(NameOperation.DoesNotExist):
+            NameOperation.objects.get(id=15)
+
+    def test_post_with_section_not_transferred_in_add_new_name(self):
+        response = self.client.post(reverse('add_new_section'), {})
+        self.assertFormError(response, 'form', '', None)
 
     def test_correct_form_in_add_new_name(self):
         response = self.client.get(reverse('add_new_name'))

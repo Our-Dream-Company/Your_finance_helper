@@ -21,40 +21,40 @@ class TestDetailedCurrentFinancialResultsView(TestCase):
 
     def test_correct_data_for_template_in_detailed_current_financial_results_reports(self):
         self.client.post(
-            '/add_new_section', {'section': "Инвестиции"})
+            reverse('add_new_section'), {'section': "Инвестиции"})
         self.client.post(
-            '/add_new_category', {'category': "Банки", 'to_section': Section.objects.last().id})
+            reverse('add_new_category'), {'category': "Банки", 'to_section': Section.objects.last().id})
         self.client.post(
-            '/add_new_name', {'name': 'Депозит', 'to_category': Category.objects.last().id})
+            reverse('add_new_name'), {'name': 'Депозит', 'to_category': Category.objects.last().id})
         self.client.post(
-            '/add_income', {'type_of_transaction': "IN",
-                            'id_section': Section.objects.last().id,
-                            'id_category': Category.objects.last().id,
-                            'id_name': NameOperation.objects.last().id,
-                            'sum_money': Decimal('50000.00'),
-                            'currency': 'BYN',
-                            'date': "2021-06-01",
-                            'comment': 'ква',
-                            'enabled': False
-                            }
+            reverse('add_income'), {'type_of_transaction': "IN",
+                                    'id_section': Section.objects.last().id,
+                                    'id_category': Category.objects.last().id,
+                                    'id_name': NameOperation.objects.last().id,
+                                    'sum_money': Decimal('50000.00'),
+                                    'currency': 'BYN',
+                                    'date': "2021-06-01",
+                                    'comment': 'ква',
+                                    'enabled': False
+                                    }
         )
         self.client.post(
-            '/add_new_section', {'section': "Мои расходы"})
+            reverse('add_new_section'), {'section': "Мои расходы"})
         self.client.post(
-            '/add_new_category', {'category': "Аптека", 'to_section': Section.objects.last().id})
+            reverse('add_new_category'), {'category': "Аптека", 'to_section': Section.objects.last().id})
         self.client.post(
-            '/add_new_name', {'name': 'Антибиотики', 'to_category': Category.objects.last().id})
+            reverse('add_new_name'), {'name': 'Антибиотики', 'to_category': Category.objects.last().id})
         self.client.post(
-            '/add_outcome', {'type_of_transaction': "OUT",
-                             'id_section': Section.objects.last().id,
-                             'id_category': Category.objects.last().id,
-                             'id_name': NameOperation.objects.last().id,
-                             'sum_money': Decimal('-500.00'),
-                             'currency': 'BYN',
-                             'date': "2021-06-03",
-                             'comment': 'кря',
-                             'enabled': False
-                             }
+            reverse('add_outcome'), {'type_of_transaction': "OUT",
+                                     'id_section': Section.objects.last().id,
+                                     'id_category': Category.objects.last().id,
+                                     'id_name': NameOperation.objects.last().id,
+                                     'sum_money': Decimal('-500.00'),
+                                     'currency': 'BYN',
+                                     'date': "2021-06-03",
+                                     'comment': 'кря',
+                                     'enabled': False
+                                     }
         )
         response = self.client.get(
             reverse('detailed_current_financial_results'))
