@@ -2,7 +2,7 @@ from django.shortcuts import render
 from main_page.models import GeneralTable
 from django.urls import reverse_lazy
 from django.views.generic import View, DetailView, ListView, UpdateView
-from .forms import TransactionUpdateForm, TransactionDeleteForm, DateForm
+from .forms import DateWidgetForm, TransactionUpdateForm, TransactionDeleteForm
 
 
 class ReportsButtonsView(View):
@@ -16,7 +16,8 @@ class DetailedCurrentFinancialResultsView(ListView):
             type_of_transaction='IN').filter(enabled=False)
         outcome_all = GeneralTable.objects.order_by('date').filter(
             type_of_transaction='OUT').filter(enabled=False)
-        return render(request, 'reports/detailed_current_financial_results.html', {'income_all': income_all, 'outcome_all': outcome_all})
+        form = DateWidgetForm
+        return render(request, 'reports/detailed_current_financial_results.html', {'income_all': income_all, 'outcome_all': outcome_all, 'form': form})
 
 
 class TransactionView(DetailView):

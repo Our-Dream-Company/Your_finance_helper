@@ -1,4 +1,4 @@
 *.pyc
 /txt
-/sand
+/sanden
 .coverage

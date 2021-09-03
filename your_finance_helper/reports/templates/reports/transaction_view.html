@@ -5,8 +5,12 @@
 
 {% block content %}
     {{ transaction.id_section }}
-    {{ transaction.id_category }}
-    {{ transaction.id_name }}
+    {% if 'None' not in i.id_category %}
+        {{ transaction.id_category }}
+    {% endif %}
+    {% if 'None' not in i.id_name %}
+        {{ transaction.id_name }}
+    {% endif %}
     {{ transaction.sum_money }}
     {{ transaction.currency }}
     {{ transaction.date }}

@@ -32,18 +32,12 @@
     {% endfor %}
     <a href="{% url 'reports' %}" class="btn btn-dark btn-sm">Back</a>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
-      </form>
+    <form action="{% url 'detailed_current_financial_results' %}" method="get">
+      {% csrf_token %}
+      {{ 'from' }}{{ form.start_date }}<br>
+      {{ 'to' }}{{ form.end_date }}
+      <button class="btn btn-success" type="submit">Show period</button>
+    </form>
 
-    <script>
-      $(function () {
-        $("#id_date").datepicker({
-          format:'dd/mm/yyyy',
-        });
-      });
-    </script>
 
 {% endblock %}
