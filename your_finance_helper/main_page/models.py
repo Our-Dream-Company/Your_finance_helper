@@ -70,7 +70,7 @@ class GeneralTable(models.Model):
     enabled = models.BooleanField('Enabled', default=False)
 
     def __str__(self):
-        return self.type_of_transaction
+        return '{} {}'.format(self.type_of_transaction, self.id_section)
 
     class Meta:
         verbose_name = 'General Table'
