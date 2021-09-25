@@ -137,7 +137,7 @@ class AddNewNameForm(ModelForm):
         widgets = {
             'name': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Category'
+                'placeholder': 'Name'
             }),
             'to_category': Select(attrs={
                 'class': 'form-control',

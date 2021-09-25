@@ -40,3 +40,14 @@ class TransactionDeleteView(UpdateView):
     form_class = TransactionDeleteForm
     context_object_name = 'transaction_d_form'
     success_url = reverse_lazy('detailed_current_financial_results')
+
+
+class Test(DetailView):
+    model = GeneralTable
+    template_name = 'reports/test.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Test, self).get_context_data(**kwargs)
+        page_alt = GeneralTable.objects.get(id=self.kwargs.get('pk_alt', ''))
+        context['page_alt'] = page_alt
+        return context

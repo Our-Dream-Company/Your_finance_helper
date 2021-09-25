@@ -36,8 +36,11 @@
       {% csrf_token %}
       {{ 'from' }}{{ form.start_date }}<br>
       {{ 'to' }}{{ form.end_date }}
-      <button class="btn btn-success" type="submit">Show period</button>
+      <a href="{% url 'test' pk=form.start_date pk=form.end_date %}" class="btn btn-info btn-sm">Get a statement for the period</a><br>
     </form>
 
 
 {% endblock %}
+<!--
+    <button class="btn btn-success" type="submit">Show period</button>
+-->

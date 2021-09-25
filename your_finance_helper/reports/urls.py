@@ -10,5 +10,7 @@ urlpatterns = [
     path('detailed_current_financial_results/<int:pk>/update',
          views.TransactionUpdateView.as_view(), name='transaction_update'),
     path('detailed_current_financial_results/<int:pk>/delete',
-         views.TransactionDeleteView.as_view(), name='transaction_delete')
+         views.TransactionDeleteView.as_view(), name='transaction_delete'),
+    path(r'^test/(?P<pk>[0-9]+)(?P<pk_alt>[0-9]+)$',
+         views.Test.as_view(), name='test')
 ]
