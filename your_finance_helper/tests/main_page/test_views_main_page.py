@@ -3,7 +3,6 @@ from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed, assertRedirects, assertFormError, assertRaisesMessage
 from main_page.models import Section, Category, NameOperation, GeneralTable
 from main_page.forms import AddIncomeForm, AddOutcomeForm, AddNewSectionForm, AddNewCategoryForm, AddNewNameForm
-import datetime
 from decimal import Decimal
 
 
@@ -89,144 +88,206 @@ def test_published_post_add_new_section(client):
 
 
 @pytest.mark.django_db
-def test_published_post_add_new_category(client, create_new_section_in):
+def test_published_post_add_new_category(client, create_new_section):
     response_category = client.post(reverse('add_new_category'), {
-                                    'category': "Банки", 'to_section': create_new_section_in.id})
+                                    'category': "Банки", 'to_section': create_new_section.id})
     assertRedirects(response_category, reverse('add_new_category'))
 
 
 @pytest.mark.django_db
-def test_published_post_add_new_name(client, create_new_category_in):
+def test_published_post_add_new_name(client, create_new_category):
     response_name = client.post(reverse('add_new_name'), {
-                                'name': 'Депозит', 'to_category': create_new_category_in.id})
+                                'name': 'Депозит', 'to_category': create_new_category.id})
     assertRedirects(response_name, reverse('add_new_name'))
 
 
 @pytest.mark.django_db
-def test_view_correct_data_in_index_view(client, create_new_transaction_in, create_new_transaction_out):
+def test_view_correct_data_in_index_view(client, transaction_in, transaction_out):
     response = client.get(reverse('main_page'))
-    assert 'Инвестиции' in response.context['in_dict_section']
-    assert 'id_section__id' in response.context['in_dict_section']['Инвестиции']
-    assert 'Банки' in response.context['in_dict_category']
-    assert 'id_category__id' in response.context['in_dict_category']['Банки']
-    assert 'id_category__to_section' in response.context['in_dict_category']['Банки']
-    assert 'Депозит' in response.context['in_dict_name']
-    assert 'id_name__to_category' in response.context['in_dict_name']['Депозит']
-    assert 'sum' in response.context['in_dict_name']['Депозит']
-    assert response.context['in_sum_all'] == Decimal('80000.00')
-    assert 'Мои расходы' in response.context['out_dict_section']
-    assert 'id_section__id' in response.context['out_dict_section']['Мои расходы']
-    assert 'Мелкие расходы' in response.context['out_dict_category']
-    assert 'id_category__id' in response.context['out_dict_category']['Мелкие расходы']
-    assert 'id_category__to_section' in response.context['out_dict_category']['Мелкие расходы']
-    assert 'Магазин' in response.context['out_dict_name']
-    assert 'id_name__to_category' in response.context['out_dict_name']['Магазин']
-    assert 'sum' in response.context['out_dict_name']['Магазин']
-    assert response.context['out_sum_all'] == Decimal('-5000.00')
-    assert response.context['in_dict_section']['Инвестиции']['id_section__id'] == response.context['in_dict_category']['Банки']['id_category__to_section']
-    assert response.context['in_dict_category']['Банки']['id_category__id'] == response.context['in_dict_name']['Депозит']['id_name__to_category']
-    assert response.context['out_dict_section']['Мои расходы']['id_section__id'] == response.context[
-        'out_dict_category']['Мелкие расходы']['id_category__to_section']
-    assert response.context['out_dict_category']['Мелкие расходы'][
-        'id_category__id'] == response.context['out_dict_name']['Магазин']['id_name__to_category']
+    assert str(
+        transaction_in.id_section) in response.context['in_dict_section']
+    assert int(transaction_in.id_section_id) == response.context['in_dict_section'][str(
+        transaction_in.id_section)]['id_section__id']
+    assert str(
+        transaction_in.id_category) in response.context['in_dict_category']
+    assert int(transaction_in.id_category_id) == response.context['in_dict_category'][str(
+        transaction_in.id_category)]['id_category__id']
+    assert 'id_category__to_section' in response.context['in_dict_category'][str(
+        transaction_in.id_category)]
+    assert str(
+        transaction_in.id_name) in response.context['in_dict_name']
+    assert 'id_name__to_category' in response.context['in_dict_name'][str(
+        transaction_in.id_name)]
+    assert 'sum' in response.context['in_dict_name'][str(
+        transaction_in.id_name)]
+    assert response.context['in_sum_all'] == Decimal(transaction_in.sum_money)
+    assert str(
+        transaction_out.id_section) in response.context['out_dict_section']
+    assert 'id_section__id' in response.context['out_dict_section'][str(
+        transaction_out.id_section)]
+    assert str(
+        transaction_out.id_category) in response.context['out_dict_category']
+    assert 'id_category__id' in response.context['out_dict_category'][str(
+        transaction_out.id_category)]
+    print(response.context['out_dict_category']
+          [str(transaction_out.id_category)])
+    assert 'id_category__to_section' in response.context['out_dict_category'][str(
+        transaction_out.id_category)]
+    assert str(
+        transaction_out.id_name) in response.context['out_dict_name']
+    assert 'id_name__to_category' in response.context['out_dict_name'][str(
+        transaction_out.id_name)]
+    assert 'sum' in response.context['out_dict_name'][str(
+        transaction_out.id_name)]
+    assert response.context['out_sum_all'] == Decimal(
+        transaction_out.sum_money)
+    assert response.context['in_dict_section'][str(transaction_in.id_section)]['id_section__id'] == response.context['in_dict_category'][str(
+        transaction_in.id_category)]['id_category__to_section']
+    assert response.context['in_dict_category'][str(transaction_in.id_category)]['id_category__id'] == response.context['in_dict_name'][str(
+        transaction_in.id_name)]['id_name__to_category']
+    assert response.context['out_dict_section'][str(transaction_out.id_section)]['id_section__id'] == response.context[
+        'out_dict_category'][str(transaction_out.id_category)]['id_category__to_section']
+    assert response.context['out_dict_category'][str(transaction_out.id_category)][
+        'id_category__id'] == response.context['out_dict_name'][str(transaction_out.id_name)]['id_name__to_category']
 
 
-@pytest.mark.django_db
-def test_published_post_add_income_transaction(published_post_add_income_transaction):
-    query = GeneralTable.objects.last()
-    assert Section.objects.last().section == 'Работа'
-    assert Category.objects.last().category == "Подработка"
-    assert NameOperation.objects.last().name == 'Клуб'
-    assert query.type_of_transaction == "IN"
-    assert query.sum_money == Decimal('50000.00')
-    assert query.currency == 'BYN'
-    assert query.date == datetime.date(2021, 6, 1)
-    assert query.comment == 'ква'
-    assert query.enabled == False
-    assert len(GeneralTable.objects.all()) == 1
-    assertRedirects(published_post_add_income_transaction,
-                    '/', status_code=302)
+@ pytest.mark.django_db
+def test_published_post_add_income_transaction(client, transaction_in):
+    url = reverse('add_income')
+    data = {
+        'id_section': transaction_in.id_section,
+        'id_category': transaction_in.id_category,
+        'id_name': transaction_in.id_name,
+        'sum_money': transaction_in.sum_money,
+        'currency': transaction_in.currency,
+        'date': transaction_in.date,
+        'comment': transaction_in.comment
+    }
+    response = client.post(url, data)
+    assert str(
+        transaction_in.id_section) == response.context['form']['id_section'].data
+    assert str(
+        transaction_in.id_category) == response.context['form']['id_category'].data
+    assert str(
+        transaction_in.id_name) == response.context['form']['id_name'].data
+    assert transaction_in.type_of_transaction == 'IN'
+    assert Decimal(transaction_in.sum_money) == Decimal(
+        response.context['form']['sum_money'].data)
+    assert str(
+        transaction_in.currency) == response.context['form']['currency'].data
+    assert str(
+        transaction_in.date) == response.context['form']['date'].data
+    assert str(
+        transaction_in.comment) == response.context['form']['comment'].data
+    assert transaction_in.enabled == False
+    assert GeneralTable.objects.count() == 1
 
 
-@pytest.mark.django_db
-def test_published_post_add_outcome_transaction(published_post_add_outcome_transaction):
-    query = GeneralTable.objects.last()
-    assert Section.objects.last().section == 'Мои расходы'
-    assert Category.objects.last().category == "Аптека"
-    assert NameOperation.objects.last().name == 'Антибиотики'
-    assert query.type_of_transaction == "OUT"
-    assert query.sum_money == Decimal('-500.00')
-    assert query.currency == 'BYN'
-    assert query.date == datetime.date(2021, 6, 3)
-    assert query.comment == 'кря'
-    assert query.enabled == False
-    assert len(GeneralTable.objects.all()) == 1
-    assertRedirects(published_post_add_outcome_transaction,
-                    '/', status_code=302)
+@ pytest.mark.django_db
+def test_published_post_add_outcome_transaction(client, transaction_out):
+    url = reverse('add_outcome')
+    data = {
+        'id_section': transaction_out.id_section,
+        'id_category': transaction_out.id_category,
+        'id_name': transaction_out.id_name,
+        'sum_money': transaction_out.sum_money,
+        'currency': transaction_out.currency,
+        'date': transaction_out.date,
+        'comment': transaction_out.comment
+    }
+    response = client.post(url, data)
+    assert str(
+        transaction_out.id_section) == response.context['form']['id_section'].data
+    assert str(
+        transaction_out.id_category) == response.context['form']['id_category'].data
+    assert str(
+        transaction_out.id_name) == response.context['form']['id_name'].data
+    assert transaction_out.type_of_transaction == 'OUT'
+    assert Decimal(transaction_out.sum_money) == Decimal(
+        response.context['form']['sum_money'].data)
+    assert str(
+        transaction_out.currency) == response.context['form']['currency'].data
+    assert str(
+        transaction_out.date) == response.context['form']['date'].data
+    assert str(
+        transaction_out.comment) == response.context['form']['comment'].data
+    assert transaction_out.enabled == False
+    assert GeneralTable.objects.count() == 1
 
 
-@pytest.mark.django_db
-def test_post_without_data_in_add_new_section(post_without_data_in_add_new_section):
-    assertFormError(post_without_data_in_add_new_section,
-                    'form', 'section', 'Обязательное поле.')
+@ pytest.mark.django_db
+def test_post_without_data_in_add_new_section(client):
+    response = client.post(reverse('add_new_section'), {'section': ''})
+    assertFormError(response, 'form', 'section', 'Обязательное поле.')
 
 
-@pytest.mark.django_db
-def test_post_with_invalid_key_in_add_new_section(post_with_invalid_key_in_add_new_section):
+@ pytest.mark.django_db
+def test_post_with_invalid_key_in_add_new_section(client):
+    client.post(reverse('add_new_section'), {'invalid_key': 'Здоровье'})
     with assertRaisesMessage(Section.DoesNotExist, 'Section matching query does not exist.'):
         Section.objects.get(section='Здоровье')
 
 
-@pytest.mark.django_db
-def test_post_with_nonexistent_section_in_add_new_section():
+@ pytest.mark.django_db
+def test_post_with_nonexistent_section_in_add_new_section(client):
+    client.get(reverse('add_new_section'))
     with assertRaisesMessage(Section.DoesNotExist, 'Section matching query does not exist.'):
         Section.objects.get(id=15)
 
 
-@pytest.mark.django_db
+@ pytest.mark.django_db
 def test_post_with_section_not_transferred_in_add_new_section(client):
+    client.get(reverse('add_new_section'))
     response = client.post(reverse('add_new_section'), {})
     assertFormError(response, 'form', '', None)
 
 
-@pytest.mark.django_db
-def test_post_without_data_in_add_new_category(post_without_data_in_add_new_category):
-    assertFormError(post_without_data_in_add_new_category,
-                    'form', 'category', 'Обязательное поле.')
+@ pytest.mark.django_db
+def test_post_without_data_in_add_new_category(client, create_new_section):
+    response = client.post(reverse('add_new_category'), {
+        'category': "", 'to_section': create_new_section})
+    assertFormError(response, 'form', 'category', 'Обязательное поле.')
 
 
-@pytest.mark.django_db
-def test_post_with_invalid_key_in_add_new_category(post_with_invalid_key_in_add_new_category):
+@ pytest.mark.django_db
+def test_post_with_invalid_key_in_add_new_category(client, create_new_section):
+    client.post(reverse('add_new_category'), {
+                'invalid_key': "Банки", 'to_section': create_new_section})
     with assertRaisesMessage(Category.DoesNotExist, 'Category matching query does not exist.'):
         Category.objects.get(category='Банки')
 
 
-@pytest.mark.django_db
-def test_post_with_nonexistent_section_in_add_new_category():
+@ pytest.mark.django_db
+def test_post_with_nonexistent_section_in_add_new_category(client):
+    client.get(reverse('add_new_category'))
     with assertRaisesMessage(Category.DoesNotExist, 'Category matching query does not exist.'):
         Category.objects.get(id=15)
 
 
-@pytest.mark.django_db
+@ pytest.mark.django_db
 def test_post_with_section_not_transferred_in_add_new_category(client):
     response = client.post(reverse('add_new_category'), {})
     assertFormError(response, 'form', '', None)
 
 
-@pytest.mark.django_db
-def test_post_without_data_in_add_new_name(post_without_data_in_add_new_name):
-    assertFormError(post_without_data_in_add_new_name,
-                    'form', 'name', 'Обязательное поле.')
+@ pytest.mark.django_db
+def test_post_without_data_in_add_new_name(client, create_new_category):
+    response = client.post(reverse('add_new_name'), {
+        'name': '', 'to_category': create_new_category})
+    assertFormError(response, 'form', 'name', 'Обязательное поле.')
 
 
-@pytest.mark.django_db
-def test_post_with_invalid_key_in_add_new_name(client, post_without_data_in_add_new_name):
+@ pytest.mark.django_db
+def test_post_with_invalid_key_in_add_new_name(client, create_new_category):
+    client.post(reverse('add_new_name'), {
+                'invalid_key': 'Депозит', 'to_category': create_new_category})
     with assertRaisesMessage(NameOperation.DoesNotExist, 'NameOperation matching query does not exist.'):
         NameOperation.objects.get(name='Депозит')
 
 
-@pytest.mark.django_db
-def test_post_with_nonexistent_section_in_add_new_name():
+@ pytest.mark.django_db
+def test_post_with_nonexistent_section_in_add_new_name(client):
+    client.get(reverse('add_new_name'))
     with assertRaisesMessage(NameOperation.DoesNotExist, 'NameOperation matching query does not exist.'):
         NameOperation.objects.get(id=15)
 
