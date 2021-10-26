@@ -6,78 +6,32 @@ from main_page.forms import AddIncomeForm, AddOutcomeForm, AddNewSectionForm, Ad
 from decimal import Decimal
 
 
+@pytest.mark.parametrize('url, template', [
+    ('main_page', 'main_page/index.html'),
+    ('add_income', 'main_page/add_income.html'),
+    ('add_outcome', 'main_page/add_outcome.html'),
+    ('add_new_section', 'main_page/add_new_section.html'),
+    ('add_new_category', 'main_page/add_new_category.html'),
+    ('add_new_name', 'main_page/add_new_name.html')
+])
 @pytest.mark.django_db
-def test_view_uses_correct_template_main_page(client):
-    resp = client.get(reverse('main_page'))
+def test_view_uses_correct_template(client, url, template):
+    resp = client.get(reverse(url))
     assert resp.status_code == 200
-    assertTemplateUsed(resp, 'main_page/index.html')
+    assertTemplateUsed(resp, template)
 
 
+@pytest.mark.parametrize('url_form, form', [
+    ('add_income', AddIncomeForm),
+    ('add_outcome', AddOutcomeForm),
+    ('add_new_section', AddNewSectionForm),
+    ('add_new_category', AddNewCategoryForm),
+    ('add_new_name', AddNewNameForm)
+])
 @pytest.mark.django_db
-def test_view_uses_correct_template_add_income(client):
-    resp = client.get(reverse('add_income'))
-    assert resp.status_code == 200
-    assertTemplateUsed(resp, 'main_page/add_income.html')
-
-
-@pytest.mark.django_db
-def test_view_uses_correct_template_add_outcome(client):
-    resp = client.get(reverse('add_outcome'))
-    assert resp.status_code == 200
-    assertTemplateUsed(resp, 'main_page/add_outcome.html')
-
-
-@pytest.mark.django_db
-def test_view_uses_correct_template_add_new_section(client):
-    resp = client.get(reverse('add_new_section'))
-    assert resp.status_code == 200
-    assertTemplateUsed(resp, 'main_page/add_new_section.html')
-
-
-@pytest.mark.django_db
-def test_view_uses_correct_template_add_new_category(client):
-    resp = client.get(reverse('add_new_category'))
-    assert resp.status_code == 200
-    assertTemplateUsed(resp, 'main_page/add_new_category.html')
-
-
-@pytest.mark.django_db
-def test_view_uses_correct_template_add_new_name(client):
-    resp = client.get(reverse('add_new_name'))
-    assert resp.status_code == 200
-    assertTemplateUsed(resp, 'main_page/add_new_name.html')
-
-
-@pytest.mark.django_db
-def test_correct_form_in_add_incomecome_transaction(client):
-    response = client.get(reverse('add_income'))
-    assert isinstance(response.context["form"], AddIncomeForm)
-    assert response.context['form'].instance.type_of_transaction == 'IN'
-
-
-@pytest.mark.django_db
-def test_correct_form_in_add_outcome_transaction(client):
-    response = client.get(reverse('add_outcome'))
-    assert isinstance(response.context["form"], AddOutcomeForm)
-    assert response.context['form'].instance.type_of_transaction == 'OUT'
-
-
-@pytest.mark.django_db
-def test_correct_form_in_add_new_section(client):
-    response = client.get(reverse('add_new_section'))
-    assert isinstance(response.context["form"], AddNewSectionForm)
-
-
-@pytest.mark.django_db
-def test_correct_form_in_add_new_category(client):
-    response = client.get(reverse('add_new_category'))
-    assert isinstance(response.context["form"], AddNewCategoryForm)
-
-
-@pytest.mark.django_db
-def test_correct_form_in_add_new_name(client):
-    response = client.get(reverse('add_new_name'))
-    assert isinstance(response.context["form"], AddNewNameForm)
+def test_correct_form(client, url_form, form):
+    response = client.get(reverse(url_form))
+    assert isinstance(response.context["form"], form)
 
 
 @pytest.mark.django_db
@@ -129,8 +83,6 @@ def test_view_correct_data_in_index_view(client, transaction_in, transaction_out
         transaction_out.id_category) in response.context['out_dict_category']
     assert 'id_category__id' in response.context['out_dict_category'][str(
         transaction_out.id_category)]
-    print(response.context['out_dict_category']
-          [str(transaction_out.id_category)])
     assert 'id_category__to_section' in response.context['out_dict_category'][str(
         transaction_out.id_category)]
     assert str(
@@ -164,21 +116,16 @@ def test_published_post_add_income_transaction(client, transaction_in):
         'comment': transaction_in.comment
     }
     response = client.post(url, data)
-    assert str(
-        transaction_in.id_section) == response.context['form']['id_section'].data
-    assert str(
-        transaction_in.id_category) == response.context['form']['id_category'].data
-    assert str(
-        transaction_in.id_name) == response.context['form']['id_name'].data
+    resp_data = response.context['form']
+    assert str(transaction_in.id_section) == resp_data['id_section'].data
+    assert str(transaction_in.id_category) == resp_data['id_category'].data
+    assert str(transaction_in.id_name) == resp_data['id_name'].data
     assert transaction_in.type_of_transaction == 'IN'
     assert Decimal(transaction_in.sum_money) == Decimal(
-        response.context['form']['sum_money'].data)
-    assert str(
-        transaction_in.currency) == response.context['form']['currency'].data
-    assert str(
-        transaction_in.date) == response.context['form']['date'].data
-    assert str(
-        transaction_in.comment) == response.context['form']['comment'].data
+        resp_data['sum_money'].data)
+    assert str(transaction_in.currency) == resp_data['currency'].data
+    assert str(transaction_in.date) == resp_data['date'].data
+    assert str(transaction_in.comment) == resp_data['comment'].data
     assert transaction_in.enabled == False
     assert GeneralTable.objects.count() == 1
 
@@ -196,21 +143,16 @@ def test_published_post_add_outcome_transaction(client, transaction_out):
         'comment': transaction_out.comment
     }
     response = client.post(url, data)
-    assert str(
-        transaction_out.id_section) == response.context['form']['id_section'].data
-    assert str(
-        transaction_out.id_category) == response.context['form']['id_category'].data
-    assert str(
-        transaction_out.id_name) == response.context['form']['id_name'].data
+    resp_data = response.context['form']
+    assert str(transaction_out.id_section) == resp_data['id_section'].data
+    assert str(transaction_out.id_category) == resp_data['id_category'].data
+    assert str(transaction_out.id_name) == resp_data['id_name'].data
     assert transaction_out.type_of_transaction == 'OUT'
     assert Decimal(transaction_out.sum_money) == Decimal(
-        response.context['form']['sum_money'].data)
-    assert str(
-        transaction_out.currency) == response.context['form']['currency'].data
-    assert str(
-        transaction_out.date) == response.context['form']['date'].data
-    assert str(
-        transaction_out.comment) == response.context['form']['comment'].data
+        resp_data['sum_money'].data)
+    assert str(transaction_out.currency) == resp_data['currency'].data
+    assert str(transaction_out.date) == resp_data['date'].data
+    assert str(transaction_out.comment) == resp_data['comment'].data
     assert transaction_out.enabled == False
     assert GeneralTable.objects.count() == 1
 
