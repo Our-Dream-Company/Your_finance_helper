@@ -11,6 +11,6 @@ urlpatterns = [
          views.TransactionUpdateView.as_view(), name='transaction_update'),
     path('detailed_current_financial_results/<int:pk>/delete',
          views.TransactionDeleteView.as_view(), name='transaction_delete'),
-    path(r'^test/(?P<pk>[0-9]+)(?P<pk_alt>[0-9]+)$',
-         views.Test.as_view(), name='test')
+    path('detailed_current_financial_results/report_for_the_period/',
+         views.ReportForThePeriod.as_view(), name='report_for_the_period')
 ]

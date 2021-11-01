@@ -7,12 +7,8 @@
     <h2>{{ 'Income' }}</h2>
     {% for i in income_all %}
         {{ i.id_section }}
-        {% if 'None' not in i.id_category %}
-            {{ i.id_category }}
-        {% endif %}
-        {% if 'None' not in i.id_name %}
-            {{ i.id_name }}
-        {% endif %}
+        {{ i.id_category }}
+        {{ i.id_name }}
         {{ i.sum_money }}
         {{ i.currency }}
         {{ i.date }}
@@ -32,15 +28,30 @@
     {% endfor %}
     <a href="{% url 'reports' %}" class="btn btn-dark btn-sm">Back</a>
 
-    <form action="{% url 'detailed_current_financial_results' %}" method="get">
-      {% csrf_token %}
-      {{ 'from' }}{{ form.start_date }}<br>
-      {{ 'to' }}{{ form.end_date }}
-      <a href="{% url 'test' pk=form.start_date pk=form.end_date %}" class="btn btn-info btn-sm">Get a statement for the period</a><br>
+    <form action="{% url 'report_for_the_period' %}" method="get">
+        {{ form.as_p }}
+        <button class="btn btn-info btn-sm" type="submit">
+            Get a statement for the period
+        </button>
     </form>
 
 
 {% endblock %}
 <!--
     <button class="btn btn-success" type="submit">Show period</button>
+    {% url 'test' pk=form.start_date pk=form.end_date %}
+
+    <button class="btn btn-primary btn-lg" type="submit">
+         Search
+     </button>
+     <a href="{% url 'test' start_date='2021-10-21' end_date='2021-10-21' %}" class="btn btn-info btn-sm">Get a statement for the period</a><br>
+
+        <form action="{% url 'test' date_from=start_date date_to=end_date %}" method="get">
+        {% csrf_token %}
+        {{ 'from' }}{{ form.start_date }}<br>
+        {{ 'to' }}{{ form.end_date }}
+        <button class="btn btn-info btn-sm" type="submit">
+            Get a statement for the period
+        </button>
+    </form>
 -->

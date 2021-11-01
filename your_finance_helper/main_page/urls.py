@@ -9,6 +9,7 @@ urlpatterns = [
          name='add_new_section'),
     path('add_new_category', views.AddNewCategoryView.as_view(),
          name='add_new_category'),
-    path('add_new_name', views.AddNewNameView.as_view(),
-         name='add_new_name')
+    path('add_new_name', views.AddNewNameView.as_view(), name='add_new_name'),
+    path('another_main_period', views.AnotherMainPeriod.as_view(),
+         name='another_main_period')
 ]
