@@ -4,6 +4,8 @@
 
 
 {% block content %}
+    {{ start_date }}
+    {{ end_date }}<br>
     <h2>{{ 'Income' }}</h2>
     {% for i in income_all %}
         {{ i.id_section }}
@@ -28,7 +30,7 @@
     {% endfor %}
     <a href="{% url 'reports' %}" class="btn btn-dark btn-sm">Back</a>
 
-    <form action="{% url 'report_for_the_period' %}" method="get">
+    <form action="{% url 'detailed_current_financial_results' %}" method="get">
         {{ form.as_p }}
         <button class="btn btn-info btn-sm" type="submit">
             Get a statement for the period

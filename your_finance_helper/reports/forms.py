@@ -1,9 +1,9 @@
+from datetime import datetime, timezone
 from django import forms
 from django.db.models import fields
 from django.forms import formsets, widgets
 from main_page.models import GeneralTable
 from django.forms import ModelForm, TextInput, DateInput, NumberInput, Select
-from django.forms.formsets import formset_factory
 from django.utils import timezone
 
 YEAR_CHOICES = tuple([i for i in range(2010, 2041)])
@@ -23,6 +23,6 @@ class TransactionDeleteForm(ModelForm):
 
 class DateWidgetForm(forms.Form):
     start_date = forms.DateField(
-        widget=forms.SelectDateWidget(years=YEAR_CHOICES), initial=timezone.now())
+        widget=forms.SelectDateWidget(years=YEAR_CHOICES), initial=datetime.now().replace(day=1).date())
     end_date = forms.DateField(
-        widget=forms.SelectDateWidget(years=YEAR_CHOICES), initial=timezone.now())
+        widget=forms.SelectDateWidget(years=YEAR_CHOICES), initial=datetime.now().date())

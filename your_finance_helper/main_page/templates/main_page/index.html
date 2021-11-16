@@ -38,7 +38,7 @@
 
     {{ 'Баланс ' }}{{ in_sum_all|add:out_sum_all }}
 
-    <form action="{% url 'another_main_period' %}" method="get">
+    <form action="{% url 'main_page' %}" method="get">
         {{ form.as_p }}
         <button class="btn btn-info btn-sm" type="submit">
             Show another period
