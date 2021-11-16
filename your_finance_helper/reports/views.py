@@ -14,28 +14,27 @@ class ReportsButtonsView(View):
 
 class DetailedCurrentFinancialResultsView(View):
     def get(self, request):
-        if request.method == 'GET':
-            form = DateWidgetForm(request.GET or None)
-            start_date = datetime.now().replace(day=1).date()
-            end_date = datetime.now().date()
-            if form.is_valid():
-                start_date = form.cleaned_data['start_date']
-                end_date = form.cleaned_data['end_date']
-            income_all = GeneralTable.objects.order_by('date').filter(
-                date__range=[start_date, end_date]).filter(
-                type_of_transaction='IN').filter(
-                enabled=False)
-            outcome_all = GeneralTable.objects.order_by('date').filter(
-                date__range=[start_date, end_date]).filter(
-                type_of_transaction='OUT').filter(
-                enabled=False)
-            return render(request, 'reports/detailed_current_financial_results.html', {
-                'start_date': start_date,
-                'end_date': end_date,
-                'income_all': income_all,
-                'outcome_all': outcome_all,
-                'form': form
-            })
+        form = DateWidgetForm(request.GET or None)
+        start_date = datetime.now().replace(day=1).date()
+        end_date = datetime.now().date()
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+        income_all = GeneralTable.objects.order_by('date').filter(
+            date__range=[start_date, end_date]).filter(
+            type_of_transaction='IN').filter(
+            enabled=False)
+        outcome_all = GeneralTable.objects.order_by('date').filter(
+            date__range=[start_date, end_date]).filter(
+            type_of_transaction='OUT').filter(
+            enabled=False)
+        return render(request, 'reports/detailed_current_financial_results.html', {
+            'start_date': start_date,
+            'end_date': end_date,
+            'income_all': income_all,
+            'outcome_all': outcome_all,
+            'form': form
+        })
 
 
 class TransactionView(DetailView):
@@ -58,26 +57,3 @@ class TransactionDeleteView(UpdateView):
     form_class = TransactionDeleteForm
     context_object_name = 'transaction_d_form'
     success_url = reverse_lazy('detailed_current_financial_results')
-
-
-class ReportForThePeriod(View):
-    def get(self, request):
-        if request.method == 'GET':
-            form = DateWidgetForm(request.GET)
-            if form.is_valid():
-                start_date = form.cleaned_data['start_date']
-                end_date = form.cleaned_data['end_date']
-                income_all = GeneralTable.objects.order_by('date').filter(
-                    date__range=[start_date, end_date]).filter(
-                    type_of_transaction='IN').filter(
-                    enabled=False)
-                outcome_all = GeneralTable.objects.order_by('date').filter(
-                    date__range=[start_date, end_date]).filter(
-                    type_of_transaction='OUT').filter(
-                    enabled=False)
-                return render(request, 'reports/report_for_the_period.html', {
-                    'start_date': start_date,
-                    'end_date': end_date,
-                    'income_all': income_all,
-                    'outcome_all': outcome_all,
-                })
