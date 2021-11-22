@@ -3,9 +3,8 @@ from .models import GeneralTable
 from django.db.models import Sum
 from django.views.generic import View, CreateView
 from django.urls import reverse_lazy
-from .forms import AddIncomeForm, AddOutcomeForm, AddNewSectionForm, AddNewCategoryForm, AddNewNameForm
+from .forms import AddIncomeForm, AddOutcomeForm, AddNewSectionForm, AddNewCategoryForm, AddNewNameOperationForm
 from reports.forms import DateWidgetForm
-from datetime import datetime
 from .split_queryset import split_queryset
 
 
@@ -26,7 +25,7 @@ class IndexView(View):
                         'id_category__id',
                         'id_category__category',
                         'id_category__to_section',
-                        'id_name__name',
+                        'id_name__name_operation',
                         'id_name__to_category').annotate(
                             sum=Sum('sum_money')).order_by(
                                 'id_section'))
@@ -40,7 +39,7 @@ class IndexView(View):
                         'id_category__id',
                         'id_category__category',
                         'id_category__to_section',
-                        'id_name__name',
+                        'id_name__name_operation',
                         'id_name__to_category').annotate(
                             sum=Sum('sum_money')).order_by(
                                 'id_section'))
@@ -81,7 +80,7 @@ class AddNewCategoryView(CreateView):
     success_url = reverse_lazy('add_new_category')
 
 
-class AddNewNameView(CreateView):
-    form_class = AddNewNameForm
-    template_name = 'main_page/add_new_name.html'
-    success_url = reverse_lazy('add_new_name')
+class AddNewNameOperationView(CreateView):
+    form_class = AddNewNameOperationForm
+    template_name = 'main_page/add_new_name_operation.html'
+    success_url = reverse_lazy('add_new_name_operation')

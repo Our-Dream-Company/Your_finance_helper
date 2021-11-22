@@ -29,17 +29,17 @@ class Category(models.Model):
 
 
 class NameOperation(models.Model):
-    name = models.CharField('Name', max_length=50)
+    name_operation = models.CharField('Name Operation', max_length=50)
     to_category = models.ForeignKey(
         Category, related_name='to_cat', on_delete=models.SET_NULL, null=True, verbose_name='Category')
     enabled_name = models.BooleanField('Enabled', default=False)
 
     def __str__(self):
-        return self.name
+        return self.name_operation
 
     class Meta:
-        verbose_name = 'Name'
-        verbose_name_plural = 'Names'
+        verbose_name = 'Name Operation'
+        verbose_name_plural = 'Names Operation'
 
 
 class GeneralTable(models.Model):
@@ -61,7 +61,7 @@ class GeneralTable(models.Model):
     id_category = models.ForeignKey(
         Category, related_name='cat', on_delete=models.SET_NULL, null=True, verbose_name='Category')
     id_name = models.ForeignKey(
-        NameOperation, related_name='nam', on_delete=models.SET_NULL, null=True, verbose_name='Name')
+        NameOperation, related_name='nam', on_delete=models.SET_NULL, null=True, verbose_name='Name Operation')
     sum_money = models.DecimalField('Amount', decimal_places=2, max_digits=10)
     currency = models.CharField(
         choices=Currency.choices, max_length=3, default='BYN')

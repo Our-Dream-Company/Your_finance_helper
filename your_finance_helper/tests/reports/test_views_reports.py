@@ -8,24 +8,13 @@ from reports.forms import TransactionUpdateForm, TransactionDeleteForm, DateWidg
 @pytest.mark.parametrize('url, template', [
     ('reports', 'reports/reports.html'),
     ('detailed_current_financial_results',
-     'reports/detailed_current_financial_results.html'),    # transaction_update и transaction_delete протестировать
+     'reports/detailed_current_financial_results.html'),
 ])
 @pytest.mark.django_db
 def test_view_uses_correct_template(client, url, template):
     resp = client.get(reverse(url))
     assert resp.status_code == 200
     assertTemplateUsed(resp, template)
-
-
-# @pytest.mark.parametrize('url_form, form', [
-#    ('transaction_update', TransactionUpdateForm),    # ошибка
-#    ('detailed_current_financial_results', DateWidgetForm),
-#    ('transaction_delete', TransactionDeleteForm)    # ошибка
-# ])
-# @pytest.mark.django_db
-# def test_correct_form(client, url_form, form):
-#    response = client.get(reverse(url_form))
-#    assert isinstance(response.context["form"], form)
 
 
 @pytest.mark.django_db

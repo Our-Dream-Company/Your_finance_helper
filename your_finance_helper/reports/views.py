@@ -1,9 +1,7 @@
-from datetime import datetime, timezone
-from django.forms.utils import ErrorDict
 from django.shortcuts import render
 from main_page.models import GeneralTable
 from django.urls import reverse_lazy
-from django.views.generic import View, DetailView, ListView, UpdateView
+from django.views.generic import View, DetailView, UpdateView
 from .forms import DateWidgetForm, TransactionUpdateForm, TransactionDeleteForm, DateWidgetForm
 
 

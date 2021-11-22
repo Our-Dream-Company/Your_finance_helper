@@ -71,7 +71,7 @@
             "model": "main_page.NameOperation",
             "pk": 1,
             "fields": {
-              "name": "Магазин",
+              "name_operation": "Магазин",
               "to_category": 1,
               "enabled_name": false
             }
@@ -80,7 +80,7 @@
             "model": "main_page.NameOperation",
             "pk": 2,
             "fields": {
-                "name": "Сад расходы",
+                "name_operation": "Сад расходы",
                 "to_category": 2,
                 "enabled_name": false
             }
@@ -89,7 +89,7 @@
             "model": "main_page.NameOperation",
             "pk": 3,
             "fields": {
-                "name": "На отдых с подругами",
+                "name_operation": "На отдых с подругами",
                 "to_category": 3,
                 "enabled_name": false
             }
@@ -98,7 +98,7 @@
                 "model": "main_page.NameOperation",
                 "pk": 4,
                 "fields": {
-                    "name": "Покупка отделочных материалов",
+                    "name_operation": "Покупка отделочных материалов",
                     "to_category": 4,
                     "enabled_name": false
                 }

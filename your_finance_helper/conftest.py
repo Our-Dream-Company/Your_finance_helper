@@ -1,7 +1,7 @@
 import pytest
 from main_page.models import Section, Category, NameOperation, GeneralTable
 from decimal import Decimal
-from datetime import datetime, timezone
+from datetime import datetime
 
 
 @pytest.fixture()
@@ -15,18 +15,18 @@ def create_new_category(create_new_section):
 
 
 @pytest.fixture()
-def create_new_name(create_new_category):
-    return NameOperation.objects.create(name="Депозит", to_category=create_new_category)
+def create_new_name_operation(create_new_category):
+    return NameOperation.objects.create(name_operation="Депозит", to_category=create_new_category)
 
 
 @pytest.fixture
-def big_table_factory(create_new_category, create_new_name):
+def big_table_factory(create_new_category, create_new_name_operation):
     def wrapper(type):
         return GeneralTable.objects.create(
             type_of_transaction=type,
             id_section=create_new_category.to_section,
             id_category=create_new_category,
-            id_name=create_new_name,
+            id_name=create_new_name_operation,
             sum_money=Decimal('80000.00'),
             currency='BYN',
             date=datetime.now().date(),
@@ -43,33 +43,3 @@ def transaction_in(big_table_factory):
 @pytest.fixture
 def transaction_out(big_table_factory):
     return big_table_factory(type="OUT")
-
-
-@pytest.fixture()
-def create_new_transaction_in(create_new_category_in, create_new_name_in):
-    return GeneralTable.objects.create(
-        type_of_transaction="IN",
-        id_section=create_new_category_in.to_section,
-        id_category=create_new_category_in,
-        id_name=create_new_name_in,
-        sum_money=Decimal('80000.00'),
-        currency='BYN',
-        date=datetime.now().date(),
-        comment='доходики',
-        enabled=False
-    )
-
-
-@pytest.fixture()
-def create_new_transaction_out(create_new_category_out, create_new_name_out):
-    return GeneralTable.objects.create(
-        type_of_transaction="OUT",
-        id_section=create_new_category_out.to_section,
-        id_category=create_new_category_out,
-        id_name=create_new_name_out,
-        sum_money=Decimal('-5000.00'),
-        currency='BYN',
-        date=datetime.now().date(),
-        comment='расходики',
-        enabled=False
-    )

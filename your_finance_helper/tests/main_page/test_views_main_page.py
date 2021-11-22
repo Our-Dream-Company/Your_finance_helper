@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed, assertRedirects, assertFormError, assertRaisesMessage
 from main_page.models import Section, Category, NameOperation, GeneralTable
-from main_page.forms import AddIncomeForm, AddOutcomeForm, AddNewSectionForm, AddNewCategoryForm, AddNewNameForm
+from main_page.forms import AddIncomeForm, AddOutcomeForm, AddNewSectionForm, AddNewCategoryForm, AddNewNameOperationForm
 from reports.forms import DateWidgetForm
 from decimal import Decimal
 
@@ -13,7 +13,7 @@ from decimal import Decimal
     ('add_outcome', 'main_page/add_outcome.html'),
     ('add_new_section', 'main_page/add_new_section.html'),
     ('add_new_category', 'main_page/add_new_category.html'),
-    ('add_new_name', 'main_page/add_new_name.html')
+    ('add_new_name_operation', 'main_page/add_new_name_operation.html')
 ])
 @pytest.mark.django_db
 def test_view_uses_correct_template(client, url, template):
@@ -27,7 +27,7 @@ def test_view_uses_correct_template(client, url, template):
     ('add_outcome', AddOutcomeForm),
     ('add_new_section', AddNewSectionForm),
     ('add_new_category', AddNewCategoryForm),
-    ('add_new_name', AddNewNameForm),
+    ('add_new_name_operation', AddNewNameOperationForm),
     ('main_page', DateWidgetForm)
 ])
 @pytest.mark.django_db
@@ -51,10 +51,10 @@ def test_published_post_add_new_category(client, create_new_section):
 
 
 @pytest.mark.django_db
-def test_published_post_add_new_name(client, create_new_category):
-    response_name = client.post(reverse('add_new_name'), {
-                                'name': 'Депозит', 'to_category': create_new_category.id})
-    assertRedirects(response_name, reverse('add_new_name'))
+def test_published_post_add_new_name_operation(client, create_new_category):
+    response_name = client.post(reverse('add_new_name_operation'), {
+                                'name_operation': 'Депозит', 'to_category': create_new_category.id})
+    assertRedirects(response_name, reverse('add_new_name_operation'))
 
 
 @pytest.mark.django_db
@@ -215,27 +215,22 @@ def test_post_with_section_not_transferred_in_add_new_category(client):
 
 
 @ pytest.mark.django_db
-def test_post_without_data_in_add_new_name(client, create_new_category):
-    response = client.post(reverse('add_new_name'), {
-        'name': '', 'to_category': create_new_category})
-    assertFormError(response, 'form', 'name', 'Обязательное поле.')
+def test_post_without_data_in_add_new_name_operation(client, create_new_category):
+    response = client.post(reverse('add_new_name_operation'), {
+        'name_operation': '', 'to_category': create_new_category})
+    assertFormError(response, 'form', 'name_operation', 'Обязательное поле.')
 
 
 @ pytest.mark.django_db
-def test_post_with_invalid_key_in_add_new_name(client, create_new_category):
-    client.post(reverse('add_new_name'), {
+def test_post_with_invalid_key_in_add_new_name_operation(client, create_new_category):
+    client.post(reverse('add_new_name_operation'), {
                 'invalid_key': 'Депозит', 'to_category': create_new_category})
     with assertRaisesMessage(NameOperation.DoesNotExist, 'NameOperation matching query does not exist.'):
-        NameOperation.objects.get(name='Депозит')
+        NameOperation.objects.get(name_operation='Депозит')
 
 
 @ pytest.mark.django_db
-def test_post_with_nonexistent_section_in_add_new_name(client):
-    client.get(reverse('add_new_name'))
+def test_post_with_nonexistent_section_in_add_new_name_operation(client):
+    client.get(reverse('add_new_name_operation'))
     with assertRaisesMessage(NameOperation.DoesNotExist, 'NameOperation matching query does not exist.'):
         NameOperation.objects.get(id=15)
-
-
-def test_post_with_section_not_transferred_in_add_new_name(client):
-    response = client.post(reverse('add_new_section'), {})
-    assertFormError(response, 'form', '', None)

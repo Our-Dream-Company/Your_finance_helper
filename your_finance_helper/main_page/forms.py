@@ -1,8 +1,5 @@
-
-from django.forms import formsets, widgets
 from .models import Section, Category, NameOperation, GeneralTable
 from django.forms import ModelForm, TextInput, DateInput, NumberInput, Select
-from django.forms.formsets import formset_factory
 
 
 class AddIncomeForm(ModelForm):
@@ -13,7 +10,7 @@ class AddIncomeForm(ModelForm):
         super(AddIncomeForm, self).__init__(*args, **kwargs)
         self.fields['id_section'].empty_label = 'Choose a Section'
         self.fields['id_category'].empty_label = 'Choose a Category'
-        self.fields['id_name'].empty_label = 'Choose a Name'
+        self.fields['id_name'].empty_label = 'Choose a Name Operation'
 
     class Meta:
         model = GeneralTable
@@ -29,7 +26,7 @@ class AddIncomeForm(ModelForm):
             }),
             'id_name': Select(attrs={
                 'class': 'form-control',
-                'placeholder': 'Name:'
+                'placeholder': 'Name Operation:'
             }),
             'sum_money': NumberInput(attrs={
                 'class': 'form-control',
@@ -58,7 +55,7 @@ class AddOutcomeForm(ModelForm):
         super(AddOutcomeForm, self).__init__(*args, **kwargs)
         self.fields['id_section'].empty_label = 'Choose a Section'
         self.fields['id_category'].empty_label = 'Choose a Category'
-        self.fields['id_name'].empty_label = 'Choose a Name'
+        self.fields['id_name'].empty_label = 'Choose a Name Operation'
 
     class Meta:
         model = GeneralTable
@@ -74,7 +71,7 @@ class AddOutcomeForm(ModelForm):
             }),
             'id_name': Select(attrs={
                 'class': 'form-control',
-                'placeholder': 'Name:'
+                'placeholder': 'Name Operation:'
             }),
             'sum_money': NumberInput(attrs={
                 'class': 'form-control',
@@ -126,7 +123,7 @@ class AddNewCategoryForm(ModelForm):
         }
 
 
-class AddNewNameForm(ModelForm):
+class AddNewNameOperationForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['to_category'].empty_label = 'Choose a Category'
@@ -135,9 +132,9 @@ class AddNewNameForm(ModelForm):
         model = NameOperation
         exclude = ['enabled_name']
         widgets = {
-            'name': TextInput(attrs={
+            'name_operation': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Name'
+                'placeholder': 'Name Operation'
             }),
             'to_category': Select(attrs={
                 'class': 'form-control',

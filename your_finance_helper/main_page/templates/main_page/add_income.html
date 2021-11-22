@@ -8,7 +8,7 @@
             {% csrf_token %}
             {{ form.id_section }}<a href="{% url 'add_new_section' %}" class="btn btn-dark btn-sm">New Section</a> <br> 
             {{ form.id_category }}<a href="{% url 'add_new_category' %}" class="btn btn-dark btn-sm">New Category</a> <br>
-            {{ form.id_name }}<a href="{% url 'add_new_name' %}" class="btn btn-dark btn-sm">New Name</a> <br>
+            {{ form.id_name }}<a href="{% url 'add_new_name_operation' %}" class="btn btn-dark btn-sm">New Name Operation</a> <br>
             {{ form.sum_money }}<br>
             {{ form.currency }}<br>
             {{ form.date }}<br>

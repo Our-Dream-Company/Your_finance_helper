@@ -11,7 +11,7 @@ def split_queryset(data):
             'id_category__id': i['id_category__id'],
             'id_category__to_section': i['id_category__to_section']
         }
-        dict_name[i['id_name__name']] = {
+        dict_name[i['id_name__name_operation']] = {
             'id_name__to_category': i['id_name__to_category'],
             'sum': i['sum']
         }

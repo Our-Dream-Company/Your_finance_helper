@@ -1,12 +1,9 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from django import forms
-from django.db.models import fields
-from django.forms import formsets, widgets
 from main_page.models import GeneralTable
-from django.forms import ModelForm, TextInput, DateInput, NumberInput, Select
-from django.utils import timezone
+from django.forms import ModelForm
 
-YEAR_CHOICES = tuple([i for i in range(2010, 2041)])
+YEAR_CHOICES = tuple(i for i in range(2010, 2041))
 
 
 class TransactionUpdateForm(ModelForm):
