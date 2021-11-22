@@ -1,6 +1,7 @@
 import pytest
 from main_page.models import Section, Category, NameOperation, GeneralTable
 from decimal import Decimal
+from datetime import datetime, timezone
 
 
 @pytest.fixture()
@@ -28,7 +29,7 @@ def big_table_factory(create_new_category, create_new_name):
             id_name=create_new_name,
             sum_money=Decimal('80000.00'),
             currency='BYN',
-            date="2021-06-03",
+            date=datetime.now().date(),
             comment='доходики',
             enabled=False)
     return wrapper
@@ -53,7 +54,7 @@ def create_new_transaction_in(create_new_category_in, create_new_name_in):
         id_name=create_new_name_in,
         sum_money=Decimal('80000.00'),
         currency='BYN',
-        date="2021-06-03",
+        date=datetime.now().date(),
         comment='доходики',
         enabled=False
     )
@@ -68,7 +69,7 @@ def create_new_transaction_out(create_new_category_out, create_new_name_out):
         id_name=create_new_name_out,
         sum_money=Decimal('-5000.00'),
         currency='BYN',
-        date="2021-06-01",
+        date=datetime.now().date(),
         comment='расходики',
         enabled=False
     )

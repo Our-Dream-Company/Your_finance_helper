@@ -3,6 +3,7 @@ from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed, assertRedirects, assertFormError, assertRaisesMessage
 from main_page.models import Section, Category, NameOperation, GeneralTable
 from main_page.forms import AddIncomeForm, AddOutcomeForm, AddNewSectionForm, AddNewCategoryForm, AddNewNameForm
+from reports.forms import DateWidgetForm
 from decimal import Decimal
 
 
@@ -26,7 +27,8 @@ def test_view_uses_correct_template(client, url, template):
     ('add_outcome', AddOutcomeForm),
     ('add_new_section', AddNewSectionForm),
     ('add_new_category', AddNewCategoryForm),
-    ('add_new_name', AddNewNameForm)
+    ('add_new_name', AddNewNameForm),
+    ('main_page', DateWidgetForm)
 ])
 @pytest.mark.django_db
 def test_correct_form(client, url_form, form):

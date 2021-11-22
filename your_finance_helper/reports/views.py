@@ -14,27 +14,27 @@ class ReportsButtonsView(View):
 
 class DetailedCurrentFinancialResultsView(View):
     def get(self, request):
-        form = DateWidgetForm(request.GET or None)
-        start_date = datetime.now().replace(day=1).date()
-        end_date = datetime.now().date()
+        data = {'start_date': DateWidgetForm.declared_fields['start_date'].initial,
+                'end_date': DateWidgetForm.declared_fields['end_date'].initial}
+        form = DateWidgetForm(request.GET or data)
         if form.is_valid():
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
-        income_all = GeneralTable.objects.order_by('date').filter(
-            date__range=[start_date, end_date]).filter(
-            type_of_transaction='IN').filter(
-            enabled=False)
-        outcome_all = GeneralTable.objects.order_by('date').filter(
-            date__range=[start_date, end_date]).filter(
-            type_of_transaction='OUT').filter(
-            enabled=False)
-        return render(request, 'reports/detailed_current_financial_results.html', {
-            'start_date': start_date,
-            'end_date': end_date,
-            'income_all': income_all,
-            'outcome_all': outcome_all,
-            'form': form
-        })
+            income_all = GeneralTable.objects.order_by('date').filter(
+                date__range=[start_date, end_date]).filter(
+                type_of_transaction='IN').filter(
+                enabled=False)
+            outcome_all = GeneralTable.objects.order_by('date').filter(
+                date__range=[start_date, end_date]).filter(
+                type_of_transaction='OUT').filter(
+                enabled=False)
+            return render(request, 'reports/detailed_current_financial_results.html', {
+                'start_date': start_date,
+                'end_date': end_date,
+                'income_all': income_all,
+                'outcome_all': outcome_all,
+                'form': form
+            })
 
 
 class TransactionView(DetailView):

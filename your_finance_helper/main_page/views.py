@@ -11,51 +11,50 @@ from .split_queryset import split_queryset
 
 class IndexView(View):
     def get(self, request):
-        form = DateWidgetForm(request.GET or None)
-        start_date = datetime.now().replace(day=1).date()
-        end_date = datetime.now().date()
+        data = {'start_date': DateWidgetForm.declared_fields['start_date'].initial,
+                'end_date': DateWidgetForm.declared_fields['end_date'].initial}
+        form = DateWidgetForm(request.GET or data)
         if form.is_valid():
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
-        in_dict_section, in_dict_category, in_dict_name, in_sum_all = split_queryset(
-            GeneralTable.objects.filter(
-                date__range=[start_date, end_date]).filter(
-                type_of_transaction='IN').values(
-                    'id_section__id',
-                    'id_section__section',
-                    'id_category__id',
-                    'id_category__category',
-                    'id_category__to_section',
-                    'id_name__name',
-                    'id_name__to_category').annotate(
-                        sum=Sum('sum_money')).order_by(
-                            'id_section'))
-        out_dict_section, out_dict_category, out_dict_name, out_sum_all = split_queryset(
-            GeneralTable.objects.filter(
-                date__range=[start_date, end_date]
-            ).filter(
-                type_of_transaction='OUT').values(
-                    'id_section__id',
-                    'id_section__section',
-                    'id_category__id',
-                    'id_category__category',
-                    'id_category__to_section',
-                    'id_name__name',
-                    'id_name__to_category').annotate(
-                        sum=Sum('sum_money')).order_by(
-                            'id_section'))
-        form = DateWidgetForm
-        return render(request, 'main_page/index.html', {
-            'in_dict_section': in_dict_section,
-            'in_dict_category': in_dict_category,
-            'in_dict_name': in_dict_name,
-            'in_sum_all': in_sum_all,
-            'out_dict_section': out_dict_section,
-            'out_dict_category': out_dict_category,
-            'out_dict_name': out_dict_name,
-            'out_sum_all': out_sum_all,
-            'form': form
-        })
+            in_dict_section, in_dict_category, in_dict_name, in_sum_all = split_queryset(
+                GeneralTable.objects.filter(
+                    date__range=[start_date, end_date]).filter(
+                    type_of_transaction='IN').values(
+                        'id_section__id',
+                        'id_section__section',
+                        'id_category__id',
+                        'id_category__category',
+                        'id_category__to_section',
+                        'id_name__name',
+                        'id_name__to_category').annotate(
+                            sum=Sum('sum_money')).order_by(
+                                'id_section'))
+            out_dict_section, out_dict_category, out_dict_name, out_sum_all = split_queryset(
+                GeneralTable.objects.filter(
+                    date__range=[start_date, end_date]
+                ).filter(
+                    type_of_transaction='OUT').values(
+                        'id_section__id',
+                        'id_section__section',
+                        'id_category__id',
+                        'id_category__category',
+                        'id_category__to_section',
+                        'id_name__name',
+                        'id_name__to_category').annotate(
+                            sum=Sum('sum_money')).order_by(
+                                'id_section'))
+            return render(request, 'main_page/index.html', {
+                'in_dict_section': in_dict_section,
+                'in_dict_category': in_dict_category,
+                'in_dict_name': in_dict_name,
+                'in_sum_all': in_sum_all,
+                'out_dict_section': out_dict_section,
+                'out_dict_category': out_dict_category,
+                'out_dict_name': out_dict_name,
+                'out_sum_all': out_sum_all,
+                'form': form
+            })
 
 
 class AddIncomeView(CreateView):
