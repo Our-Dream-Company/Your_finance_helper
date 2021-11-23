@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from main_page.models import GeneralTable
 from django.urls import reverse_lazy
-from django.views.generic import View, DetailView, ListView, UpdateView
-from .forms import TransactionUpdateForm, TransactionDeleteForm
+from django.views.generic import View, DetailView, UpdateView
+from .forms import DateWidgetForm, TransactionUpdateForm, TransactionDeleteForm, DateWidgetForm
 
 
 class ReportsButtonsView(View):
@@ -10,13 +10,29 @@ class ReportsButtonsView(View):
         return render(request, 'reports/reports.html')
 
 
-class DetailedCurrentFinancialResultsView(ListView):
+class DetailedCurrentFinancialResultsView(View):
     def get(self, request):
-        income_all = GeneralTable.objects.order_by('date').filter(
-            type_of_transaction='IN').filter(enabled=False)
-        outcome_all = GeneralTable.objects.order_by('date').filter(
-            type_of_transaction='OUT').filter(enabled=False)
-        return render(request, 'reports/detailed_current_financial_results.html', {'income_all': income_all, 'outcome_all': outcome_all})
+        data = {'start_date': DateWidgetForm.declared_fields['start_date'].initial,
+                'end_date': DateWidgetForm.declared_fields['end_date'].initial}
+        form = DateWidgetForm(request.GET or data)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+            income_all = GeneralTable.objects.order_by('date').filter(
+                date__range=[start_date, end_date]).filter(
+                type_of_transaction='IN').filter(
+                enabled=False)
+            outcome_all = GeneralTable.objects.order_by('date').filter(
+                date__range=[start_date, end_date]).filter(
+                type_of_transaction='OUT').filter(
+                enabled=False)
+            return render(request, 'reports/detailed_current_financial_results.html', {
+                'start_date': start_date,
+                'end_date': end_date,
+                'income_all': income_all,
+                'outcome_all': outcome_all,
+                'form': form
+            })
 
 
 class TransactionView(DetailView):

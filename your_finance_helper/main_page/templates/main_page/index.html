@@ -33,10 +33,17 @@
                 {% endfor %}               
             {% endif %}
         {% endfor %}
-{% endfor %}
-<h1>{{ 'Общий расход' }} {{ out_sum_all }}</h1>
+    {% endfor %}
+    <h1>{{ 'Общий расход' }} {{ out_sum_all }}</h1>
 
-{{ 'Баланс ' }}{{ in_sum_all|add:out_sum_all }}
+    {{ 'Баланс ' }}{{ in_sum_all|add:out_sum_all }}
+
+    <form action="{% url 'main_page' %}" method="get">
+        {{ form.as_p }}
+        <button class="btn btn-info btn-sm" type="submit">
+            Show another period
+        </button>
+    </form>
 
 {% endblock %}
 

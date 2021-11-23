@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed
 from main_page.models import GeneralTable
-from reports.forms import TransactionUpdateForm, TransactionDeleteForm
+from reports.forms import TransactionUpdateForm, TransactionDeleteForm, DateWidgetForm
 
 
 @pytest.mark.parametrize('url, template', [
@@ -53,11 +53,18 @@ def test_correct_form_in_transaction_update_reports(client, transaction_in):
 
 
 @pytest.mark.django_db
-def test_correct_form_in_transaction_update_reports(client, transaction_in):
+def test_correct_form_in_transaction_transaction_delete(client, transaction_in):
     response = client.get(reverse('transaction_delete', args=[
                           transaction_in.id]))
     assert isinstance(
         response.context['form'], TransactionDeleteForm)
+
+
+@pytest.mark.django_db
+def test_correct_form_in_transaction_detailed_current_financial_results(client):
+    response = client.get(reverse('detailed_current_financial_results'))
+    assert isinstance(
+        response.context['form'], DateWidgetForm)
 
 
 @pytest.mark.django_db

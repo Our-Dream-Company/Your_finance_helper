@@ -4,15 +4,13 @@
 
 
 {% block content %}
+    {{ start_date }}
+    {{ end_date }}<br>
     <h2>{{ 'Income' }}</h2>
     {% for i in income_all %}
         {{ i.id_section }}
-        {% if 'None' not in i.id_category %}
-            {{ i.id_category }}
-        {% endif %}
-        {% if 'None' not in i.id_name %}
-            {{ i.id_name }}
-        {% endif %}
+        {{ i.id_category }}
+        {{ i.id_name }}
         {{ i.sum_money }}
         {{ i.currency }}
         {{ i.date }}
@@ -32,5 +30,13 @@
     {% endfor %}
     <a href="{% url 'reports' %}" class="btn btn-dark btn-sm">Back</a>
 
+    <form action="{% url 'detailed_current_financial_results' %}" method="get">
+        {{ form.as_p }}
+        <button class="btn btn-info btn-sm" type="submit">
+            Get a statement for the period
+        </button><br>
+    </form>
+
 
 {% endblock %}
+
