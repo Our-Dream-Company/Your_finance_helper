@@ -1,6 +1,6 @@
 import pytest
 from django.urls import reverse
-from pytest_django.asserts import assertTemplateUsed
+from pytest_django.asserts import assertRedirects, assertTemplateUsed
 from main_page.models import GeneralTable
 from reports.forms import TransactionUpdateForm, TransactionDeleteForm, DateWidgetForm
 
@@ -11,15 +11,15 @@ from reports.forms import TransactionUpdateForm, TransactionDeleteForm, DateWidg
      'reports/detailed_current_financial_results.html'),
 ])
 @pytest.mark.django_db
-def test_view_uses_correct_template(client, url, template):
-    resp = client.get(reverse(url))
+def test_view_uses_correct_template_reports(authenticated_user, url, template):
+    resp = authenticated_user.get(reverse(url))
     assert resp.status_code == 200
     assertTemplateUsed(resp, template)
 
 
 @pytest.mark.django_db
-def test_view_uses_correct_template_one_transaction_reports(client, transaction_in):
-    resp = client.get(reverse('transaction_view', args=[
+def test_view_uses_correct_template_one_transaction_reports(authenticated_user, transaction_in):
+    resp = authenticated_user.get(reverse('transaction_view', args=[
         transaction_in.id]))
     assert resp.status_code, 200
     assertTemplateUsed(
@@ -27,49 +27,62 @@ def test_view_uses_correct_template_one_transaction_reports(client, transaction_
 
 
 @pytest.mark.django_db
-def test_view_uses_correct_template_transaction_update_reports(client, transaction_in):
-    resp = client.get(reverse('transaction_update', args=[
-                      transaction_in.id]))
+def test_view_uses_correct_template_transaction_update_reports(authenticated_user, transaction_in):
+    resp = authenticated_user.get(reverse('transaction_update', args=[
+        transaction_in.id]))
     assert resp.status_code == 200
     assertTemplateUsed(
         resp, 'reports/transaction_update.html')
 
 
 @pytest.mark.django_db
-def test_view_uses_correct_template_transaction_delete_reports(client, transaction_in):
-    resp = client.get(reverse('transaction_delete', args=[
-                      transaction_in.id]))
+def test_view_uses_correct_template_transaction_delete_reports(authenticated_user, transaction_in):
+    resp = authenticated_user.get(reverse('transaction_delete', args=[
+        transaction_in.id]))
     assert resp.status_code, 200
     assertTemplateUsed(
         resp, 'reports/transaction_delete.html')
 
 
 @pytest.mark.django_db
-def test_correct_form_in_transaction_update_reports(client, transaction_in):
-    response = client.get(reverse('transaction_update', args=[
-                          transaction_in.id]))
+def test_correct_form_in_transaction_update_reports(authenticated_user, transaction_in):
+    response = authenticated_user.get(reverse('transaction_update', args=[
+        transaction_in.id]))
     assert isinstance(
         response.context['form'], TransactionUpdateForm)
 
 
 @pytest.mark.django_db
-def test_correct_form_in_transaction_transaction_delete(client, transaction_in):
-    response = client.get(reverse('transaction_delete', args=[
-                          transaction_in.id]))
+def test_correct_form_in_transaction_transaction_delete(authenticated_user, transaction_in):
+    response = authenticated_user.get(reverse('transaction_delete', args=[
+        transaction_in.id]))
     assert isinstance(
         response.context['form'], TransactionDeleteForm)
 
 
 @pytest.mark.django_db
-def test_correct_form_in_transaction_detailed_current_financial_results(client):
-    response = client.get(reverse('detailed_current_financial_results'))
+def test_correct_form_in_transaction_detailed_current_financial_results(authenticated_user):
+    response = authenticated_user.get(
+        reverse('detailed_current_financial_results'))
     assert isinstance(
         response.context['form'], DateWidgetForm)
 
 
+@pytest.mark.parametrize('url', [
+    ('reports'),
+    ('detailed_current_financial_results'),
+])
 @pytest.mark.django_db
-def test_correct_data_for_template_in_detailed_current_financial_results_reports(client, transaction_in, transaction_out):
-    response = client.get(reverse('detailed_current_financial_results'))
+def test_is_authenticated_reports(client, url):
+    response = client.get(reverse(url))
+    assertRedirects(
+        response, f"{reverse('login')}?next={reverse(url)}")
+
+
+@pytest.mark.django_db
+def test_correct_data_for_template_in_detailed_current_financial_results_reports(authenticated_user, transaction_in, transaction_out):
+    response = authenticated_user.get(
+        reverse('detailed_current_financial_results'))
     resp_data_in = response.context['income_all'][0]
     resp_data_out = response.context['outcome_all'][0]
     assert str(transaction_in.type_of_transaction) == str(
@@ -95,8 +108,8 @@ def test_correct_data_for_template_in_detailed_current_financial_results_reports
 
 
 @pytest.mark.django_db
-def test_correct_data_for_template_in_one_transaction_reports(client, transaction_in):
-    resp = client.get(reverse('transaction_view', args=[
+def test_correct_data_for_template_in_one_transaction_reports(authenticated_user, transaction_in):
+    resp = authenticated_user.get(reverse('transaction_view', args=[
         GeneralTable.objects.last().id]))
     resp_data = resp.context['transaction']
     assert resp_data.type_of_transaction == transaction_in.type_of_transaction
@@ -111,8 +124,8 @@ def test_correct_data_for_template_in_one_transaction_reports(client, transactio
 
 
 @pytest.mark.django_db
-def test_correct_data_for_template_in_transaction_update_reports(client, transaction_in):
-    resp = client.get(reverse('transaction_update', args=[
+def test_correct_data_for_template_in_transaction_update_reports(authenticated_user, transaction_in):
+    resp = authenticated_user.get(reverse('transaction_update', args=[
         GeneralTable.objects.last().id]))
     resp_data = resp.context['transaction_form']
     assert resp_data.type_of_transaction == transaction_in.type_of_transaction
@@ -127,8 +140,8 @@ def test_correct_data_for_template_in_transaction_update_reports(client, transac
 
 
 @pytest.mark.django_db
-def test_correct_data_for_template_in_transaction_delete_reports(client, transaction_in):
-    resp = client.get(reverse('transaction_delete', args=[
+def test_correct_data_for_template_in_transaction_delete_reports(authenticated_user, transaction_in):
+    resp = authenticated_user.get(reverse('transaction_delete', args=[
         GeneralTable.objects.last().id]))
     resp_data = resp.context['transaction_d_form']
     assert resp_data .type_of_transaction == transaction_in.type_of_transaction

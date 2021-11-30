@@ -1,3 +1,4 @@
+from django.http import request, response
 from .models import Section, Category, NameOperation, GeneralTable
 from django.forms import ModelForm, TextInput, DateInput, NumberInput, Select
 
@@ -14,7 +15,7 @@ class AddIncomeForm(ModelForm):
 
     class Meta:
         model = GeneralTable
-        exclude = ['type_of_transaction', 'enabled']
+        exclude = ['type_of_transaction', 'enabled', 'id_user']
         widgets = {
             'id_section': Select(attrs={
                 'class': 'form-control',
@@ -59,7 +60,7 @@ class AddOutcomeForm(ModelForm):
 
     class Meta:
         model = GeneralTable
-        exclude = ['type_of_transaction', 'enabled']
+        exclude = ['type_of_transaction', 'enabled', 'id_user']
         widgets = {
             'id_section': Select(attrs={
                 'class': 'form-control',
@@ -95,7 +96,7 @@ class AddOutcomeForm(ModelForm):
 class AddNewSectionForm(ModelForm):
     class Meta:
         model = Section
-        exclude = ['enabled_section']
+        exclude = ['enabled_section', 'id_user_from_section']
         widgets = {
             'section': TextInput(attrs={
                 'class': 'form-control',
@@ -111,7 +112,7 @@ class AddNewCategoryForm(ModelForm):
 
     class Meta:
         model = Category
-        exclude = ['enabled_category']
+        exclude = ['enabled_category', 'id_user_from_category']
         widgets = {
             'category': TextInput(attrs={
                 'class': 'form-control',
@@ -130,7 +131,7 @@ class AddNewNameOperationForm(ModelForm):
 
     class Meta:
         model = NameOperation
-        exclude = ['enabled_name']
+        exclude = ['enabled_name', 'id_user_from_name_operation']
         widgets = {
             'name_operation': TextInput(attrs={
                 'class': 'form-control',

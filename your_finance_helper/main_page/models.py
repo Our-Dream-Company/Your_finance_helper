@@ -1,10 +1,15 @@
+from django.contrib.auth.models import User
 from django.db import models
 from datetime import date
+
+from django.http import request
 
 
 class Section(models.Model):
     section = models.CharField('Section', max_length=50)
     enabled_section = models.BooleanField('Enabled', default=False)
+    id_user_from_section = models.ForeignKey(
+        User, related_name='user_section', on_delete=models.CASCADE, null=True, verbose_name='User')
 
     def __str__(self):
         return self.section
@@ -19,6 +24,8 @@ class Category(models.Model):
     to_section = models.ForeignKey(
         Section, related_name='to_sec', on_delete=models.SET_NULL, null=True, verbose_name='Section')
     enabled_category = models.BooleanField('Enabled', default=False)
+    id_user_from_category = models.ForeignKey(
+        User, related_name='user_category', on_delete=models.CASCADE, null=True, verbose_name='User')
 
     def __str__(self):
         return self.category
@@ -33,6 +40,8 @@ class NameOperation(models.Model):
     to_category = models.ForeignKey(
         Category, related_name='to_cat', on_delete=models.SET_NULL, null=True, verbose_name='Category')
     enabled_name = models.BooleanField('Enabled', default=False)
+    id_user_from_name_operation = models.ForeignKey(
+        User, related_name='user_name_operation', on_delete=models.CASCADE, null=True, verbose_name='User')
 
     def __str__(self):
         return self.name_operation
@@ -57,17 +66,19 @@ class GeneralTable(models.Model):
     type_of_transaction = models.CharField(
         choices=TypeOfTransaction.choices, max_length=3)
     id_section = models.ForeignKey(
-        Section, related_name='sec', on_delete=models.SET_NULL, null=True, verbose_name='Section')
+        Section, related_name='sec', on_delete=models.CASCADE, null=True, verbose_name='Section')
     id_category = models.ForeignKey(
-        Category, related_name='cat', on_delete=models.SET_NULL, null=True, verbose_name='Category')
+        Category, related_name='cat', on_delete=models.CASCADE, null=True, verbose_name='Category')
     id_name = models.ForeignKey(
-        NameOperation, related_name='nam', on_delete=models.SET_NULL, null=True, verbose_name='Name Operation')
+        NameOperation, related_name='nam', on_delete=models.CASCADE, null=True, verbose_name='Name Operation')
     sum_money = models.DecimalField('Amount', decimal_places=2, max_digits=10)
     currency = models.CharField(
         choices=Currency.choices, max_length=3, default='BYN')
     date = models.DateField('Date', default=date.today)
     comment = models.CharField('Comment', max_length=100, blank=True)
     enabled = models.BooleanField('Enabled', default=False)
+    id_user = models.ForeignKey(
+        User, related_name='user', on_delete=models.CASCADE, null=True, verbose_name='User')
 
     def __str__(self):
         return '{} {}'.format(self.type_of_transaction, self.id_section)
