@@ -30,14 +30,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+if DEBUG:
+    # During development only
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    'authentication',
     'main_page',
     'reports',
-    'authentication',
     'rest_framework',
+    'captcha',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -172,4 +177,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/authentication/login'
+LOGIN_URL = '/authentication/login_in'

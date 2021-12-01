@@ -22,6 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main_page.urls')),
     path('reports/', include('reports.urls')),
-    path('authentication/', include('authentication.urls'))
-
+    path('authentication/', include('authentication.urls')),
+    path('captcha/', include('captcha.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

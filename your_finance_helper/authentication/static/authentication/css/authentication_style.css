@@ -1,0 +1,137 @@
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.h3 {
+  text-align: center;
+}
+
+.header {
+  background: #0c0c0c;
+  background-image: url(../img/wpt51.png);
+  height: 60px;
+}
+
+ul.mainmenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 60px;
+  color: #fdc073;
+  font-size: 20px;
+  overflow: hidden;
+}
+ul.mainmenu li {
+  float: left;
+  margin: 18px 40px 0 30px;
+}
+ul.mainmenu li.logo {
+  margin: 0;
+}
+ul.mainmenu li.last {
+  float: right;
+}
+
+ul.mainmenu li a {
+  color: #fdc073;
+  text-decoration: none;
+}
+ul.mainmenu li a:hover {
+  color: #fda83d;
+}
+
+.clear {
+  clear: both;
+}
+
+.header {
+  background: #0c0c0c;
+  background-image: url(../img/wpt51.png);
+  height: 60px;
+}
+
+ul.mainmenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 60px;
+  color: #fdc073;
+  font-size: 20px;
+  overflow: hidden;
+}
+ul.mainmenu li {
+  float: left;
+  margin: 18px 40px 0 30px;
+}
+ul.mainmenu li.logo {
+  margin: 0;
+}
+ul.mainmenu li.last {
+  float: right;
+}
+
+ul.mainmenu li a {
+  color: #fdc073;
+  text-decoration: none;
+}
+ul.mainmenu li a:hover {
+  color: #fda83d;
+}
+
+.clear {
+  clear: both;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+.form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.h3 {
+  text-align: center;
+}
