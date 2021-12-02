@@ -11,9 +11,9 @@ class RegisterView(CreateView):
     template_name = 'authentication/register.html'
     success_url = reverse_lazy('login')
 
-    def form_valid(self, form):
-        if form.is_valid():
-            user = form.save()
+    def form_valid(self, form_class):
+        if form_class.is_valid():
+            user = form_class.save()
             login(self.request, user)
             return redirect('main_page')
 
