@@ -12,9 +12,10 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('login')
 
     def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('main_page')
+        if form.is_valid():
+            user = form.save()
+            login(self.request, user)
+            return redirect('main_page')
 
 
 class LoginUserView(LoginView):
