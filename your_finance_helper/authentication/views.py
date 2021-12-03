@@ -10,12 +10,12 @@ from .forms import RegisterForm, LoginUserForm
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'authentication/register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('main_page')
 
     def form_valid(self, form_class):
         valid = super().form_valid(form_class)
         login(self.request, self.object)
-        return redirect('main_page')
+        return valid
 
 
 class LoginUserView(LoginView):
