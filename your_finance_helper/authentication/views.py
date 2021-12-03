@@ -1,7 +1,8 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
+from django.http import request
 from django.shortcuts import redirect
-from django.urls.base import reverse_lazy
+from django.urls.base import reverse, reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import RegisterForm, LoginUserForm
 
@@ -12,10 +13,9 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('login')
 
     def form_valid(self, form_class):
-        if form_class.is_valid():
-            user = form_class.save()
-            login(self.request, user)
-            return redirect('main_page')
+        valid = super().form_valid(form_class)
+        login(self.request, self.object)
+        return redirect('main_page')
 
 
 class LoginUserView(LoginView):
