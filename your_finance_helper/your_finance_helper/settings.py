@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'psycopg2'
 ]
 
 MIDDLEWARE = [
@@ -94,12 +95,12 @@ WSGI_APPLICATION = 'your_finance_helper.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': '176GqaT@vAf',
-        'HOST': '127.0.0.1',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'your_finance_helper.db',
+        'USER': 'admin',
+        'PASSWORD': 'Hack9348Qvad',
+        'HOST': 'postgresdb',
+        'PORT': '5432'
     }
 }
 
