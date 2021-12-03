@@ -1,16 +1,18 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from main_page.models import GeneralTable
 from django.urls import reverse_lazy
 from django.views.generic import View, DetailView, UpdateView
 from .forms import DateWidgetForm, TransactionUpdateForm, TransactionDeleteForm, DateWidgetForm
+from django.contrib.auth.decorators import login_required
 
 
-class ReportsButtonsView(View):
+class ReportsButtonsView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'reports/reports.html')
 
 
-class DetailedCurrentFinancialResultsView(View):
+class DetailedCurrentFinancialResultsView(LoginRequiredMixin, View):
     def get(self, request):
         data = {'start_date': DateWidgetForm.declared_fields['start_date'].initial,
                 'end_date': DateWidgetForm.declared_fields['end_date'].initial}
@@ -19,10 +21,12 @@ class DetailedCurrentFinancialResultsView(View):
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
             income_all = GeneralTable.objects.order_by('date').filter(
+                id_user=request.user).filter(
                 date__range=[start_date, end_date]).filter(
                 type_of_transaction='IN').filter(
                 enabled=False)
             outcome_all = GeneralTable.objects.order_by('date').filter(
+                id_user=request.user).filter(
                 date__range=[start_date, end_date]).filter(
                 type_of_transaction='OUT').filter(
                 enabled=False)
@@ -35,13 +39,13 @@ class DetailedCurrentFinancialResultsView(View):
             })
 
 
-class TransactionView(DetailView):
+class TransactionView(LoginRequiredMixin, DetailView):
     model = GeneralTable
     template_name = 'reports/transaction_view.html'
     context_object_name = 'transaction'
 
 
-class TransactionUpdateView(UpdateView):
+class TransactionUpdateView(LoginRequiredMixin, UpdateView):
     model = GeneralTable
     template_name = 'reports/transaction_update.html'
     form_class = TransactionUpdateForm
@@ -49,7 +53,7 @@ class TransactionUpdateView(UpdateView):
     success_url = reverse_lazy('detailed_current_financial_results')
 
 
-class TransactionDeleteView(UpdateView):
+class TransactionDeleteView(LoginRequiredMixin, UpdateView):
     model = GeneralTable
     template_name = 'reports/transaction_delete.html'
     form_class = TransactionDeleteForm

@@ -4,7 +4,7 @@ body {
 
 aside {
   float: left;
-  background: rgb(34, 32, 32);
+  background: #0c0c0c;
   width: 26%;
   padding: 2.5%;
   height: 60vh;
@@ -85,4 +85,81 @@ form {
   margin-left: 30%;
   width: 300px;
   margin-top: 50px;
+}
+
+.form-input {
+  width: 300px;
+  font-size: 16px;
+}
+
+.form-label {
+  display: inline-block;
+  min-width: 150px;
+  vertical-align: top;
+}
+
+.form-error ul {
+  list-style: none;
+  padding: 0;
+  color: #cc0000;
+}
+
+.form-button {
+  min-width: 200px;
+  font-size: 16px;
+}
+
+ul.control li.last {
+  float: right;
+  padding: 0 40px 0 0;
+}
+ul.control li.last:after {
+  content: "\2192";
+  padding: 0 0 0 10px;
+}
+ul.breadcrumbs li.last:after {
+  content: "";
+}
+
+div.article-panel p.last {
+  margin: 0;
+  float: right;
+}
+
+.header {
+  background: #0c0c0c;
+  background-image: url(../img/wpt51.png);
+  height: 60px;
+}
+
+ul.mainmenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 60px;
+  color: #fdc073;
+  font-size: 20px;
+  overflow: hidden;
+}
+ul.mainmenu li {
+  float: left;
+  margin: 18px 40px 0 30px;
+}
+ul.mainmenu li.logo {
+  margin: 0;
+}
+ul.mainmenu li.last {
+  float: right;
+}
+
+ul.mainmenu li a {
+  color: #fdc073;
+  text-decoration: none;
+}
+ul.mainmenu li a:hover {
+  color: #fda83d;
+}
+
+.clear {
+  clear: both;
 }
