@@ -1,4 +1,4 @@
-CREATE USER admin WITH PASSWORD 'Hack9348Qvad';
+CREATE USER admin WITH PASSWORD '176GqaT@vAf';
 
-CREATE DATABASE your_finance_helper.db;
-GRANT ALL PRIVILIGES ON DATABASE your_finance_helper.db TO admin;
+CREATE DATABASE prod_db;
+GRANT ALL PRIVILIGES ON DATABASE prod_db TO admin;

@@ -1,7 +1,9 @@
 #! /bin/bash
 
-python manage.py migrations --no-input
+python manage.py makemigrations --no-input
 
 python manage.py migrate --no-input
 
-python manage.py runserver 0.0.0.0:5432
+python manage.py collectstatic --no-input
+
+gunicorn your_finance_helper.wsgi:application --bind 0.0.0.0:8000 --reload -w 4
