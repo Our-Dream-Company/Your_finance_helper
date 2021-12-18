@@ -15,8 +15,8 @@ import os
 from pathlib import Path
 
 load_dotenv()
-env_path = Path('.')/'.env'
-load_dotenv(dotenv_path=env_path)
+# env_path = Path('.')/'.env'
+# load_dotenv(dotenv_path=env_path)
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,14 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
-
-# SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(' ')
+ALLOWED_HOSTS = ['*']
 
 if DEBUG:
     # During development only
@@ -54,8 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'psycopg2'
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [
@@ -102,9 +99,9 @@ WSGI_APPLICATION = 'your_finance_helper.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_NAME'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'NAME': os.getenv('POSTGRES_NAME'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
         'HOST': os.getenv("POSTGRES_HOST"),
         'PORT': os.getenv("POSTGRES_PORT"),
     }
@@ -174,8 +171,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

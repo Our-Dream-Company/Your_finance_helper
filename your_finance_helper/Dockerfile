@@ -9,8 +9,7 @@ WORKDIR /usr/src/app
 COPY requirements.txt .
 COPY entrypoint.sh .
 
-RUN pip install -U python-dotenv
-RUN /usr/local/bin/python -m pip install --upgrade pip
+RUN python -m pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN chmod +x entrypoint.sh
 

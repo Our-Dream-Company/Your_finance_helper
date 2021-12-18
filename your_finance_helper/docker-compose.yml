@@ -2,11 +2,7 @@ version: "3.3"
 
 services:
   db:
-    build: 
-      context: docker/postgres
-      dockerfile: Dockerfile
-    volumes:
-      - ./docker/postgres:/docker-entrypoint-initdb.d
+    image: postgres:13-alpine3.14
     env_file:
       - .env
     ports:
