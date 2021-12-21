@@ -180,7 +180,8 @@ def test_published_post_add_outcome_transaction(authenticated_user, transaction_
 def test_post_without_data_in_add_new_section(authenticated_user):
     response = authenticated_user.post(
         reverse('add_new_section'), {'section': ''})
-    assertFormError(response, 'form', 'section', 'Обязательное поле.')
+    assertFormError(response, 'form', 'section',
+                    'Это поле обязательно для заполнения.')
 
 
 @pytest.mark.django_db
@@ -209,7 +210,8 @@ def test_post_with_section_not_transferred_in_add_new_section(authenticated_user
 def test_post_without_data_in_add_new_category(authenticated_user, create_new_section):
     response = authenticated_user.post(reverse('add_new_category'), {
         'category': "", 'to_section': create_new_section})
-    assertFormError(response, 'form', 'category', 'Обязательное поле.')
+    assertFormError(response, 'form', 'category',
+                    'Это поле обязательно для заполнения.')
 
 
 @pytest.mark.django_db
@@ -237,7 +239,8 @@ def test_post_with_section_not_transferred_in_add_new_category(authenticated_use
 def test_post_without_data_in_add_new_name_operation(authenticated_user, create_new_category):
     response = authenticated_user.post(reverse('add_new_name_operation'), {
         'name_operation': '', 'to_category': create_new_category})
-    assertFormError(response, 'form', 'name_operation', 'Обязательное поле.')
+    assertFormError(response, 'form', 'name_operation',
+                    'Это поле обязательно для заполнения.')
 
 
 @pytest.mark.django_db
