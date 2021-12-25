@@ -1,4 +1,3 @@
-from os import system
 import pytest
 from main_page.models import Section, Category, NameOperation, GeneralTable
 from decimal import Decimal
