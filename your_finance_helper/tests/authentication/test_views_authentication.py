@@ -1,9 +1,7 @@
-from captcha.fields import CaptchaField
 import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertRedirects, assertTemplateUsed
 from authentication.forms import RegisterForm, LoginUserForm
-from captcha.conf import settings as captcha_settings
 
 
 @pytest.mark.parametrize('url, template', [
