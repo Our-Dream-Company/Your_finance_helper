@@ -3,6 +3,7 @@ import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertRedirects, assertTemplateUsed
 from authentication.forms import RegisterForm, LoginUserForm
+from captcha.conf import settings as captcha_settings
 
 
 @pytest.mark.parametrize('url, template', [
@@ -48,7 +49,12 @@ def test_published_post_login(client, create_user):
 
 
 @pytest.mark.django_db
-def test_published_post_register(client):
+def test_published_post_register(client, captcha_test_mode):
     response_name = client.post(reverse('register'), {
-        'username': 'john', 'email': 'lennon@thebeatles.com', 'password1': 'Hack1234', 'password2': 'Hack1234'})
+        'username': 'john',
+        'email': 'lennon@thebeatles.com',
+        'password1': 'Hack1234',
+        'password2': 'Hack1234',
+        'captcha_0': 'dontcare',
+        'captcha_1': 'PASSED', })
     assertRedirects(response_name, reverse('main_page'))
