@@ -3,6 +3,14 @@ from main_page.models import Section, Category, NameOperation, GeneralTable
 from decimal import Decimal
 from datetime import datetime
 from django.contrib.auth.models import User
+from captcha.conf import settings as captcha_settings
+
+
+@pytest.fixture()
+def captcha_test_mode():
+    captcha_settings.CAPTCHA_TEST_MODE = True
+    yield
+    captcha_settings.CAPTCHA_TEST_MODE = False
 
 
 @pytest.fixture()
