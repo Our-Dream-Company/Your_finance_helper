@@ -72,3 +72,10 @@ Removal is done by changing the **enabled** field of the [model](https://github.
 
 My application Your_finance_helper has [tests](https://github.com/Our-Dream-Company/Your_finance_helper/tree/master/your_finance_helper/tests). Tests are written with a pytest.
 At the moment, the test coverage is 99%.
+![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/8_test_coverage.jpg)
+
+## Usage
+
+1. Request an env file from me (contacts will be below).
+2. Run services:
+   `docker-compose up --build`
