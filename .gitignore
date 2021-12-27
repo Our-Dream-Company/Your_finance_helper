@@ -2,3 +2,4 @@
 /txt
 /sanden
 .coverage
+.env
