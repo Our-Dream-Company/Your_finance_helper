@@ -10,22 +10,24 @@ Django applications includes:
 2. [main_page](https://github.com/Our-Dream-Company/Your_finance_helper/tree/master/your_finance_helper/main_page)
 3. [reports](https://github.com/Our-Dream-Company/Your_finance_helper/tree/master/your_finance_helper/reports)
 
-Financial assistant project development
+## Authentication
 
-1. download PostgresQL and install from https://www.postgresql.org/download/
+I used the standard Django classes for authentification. It includes:
 
-2. Create a virtual environment using the command - python -m venv sand\_(you can give any name)
+###### login/logout:
 
-3. run your virtual environment . ../Scripts/activate
+![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/1_login.jpg)
 
-4. use - pip install -r requirements.txt
+###### password change:
 
-5. click Cntl+Shift+P and choose Python:Select Interpreter>Python from virtual environment(for VScode)
+![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/3_change_password.jpg)
+![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/3_change_password_completed.jpg)
 
-6. use - python manage.py makemigrations
+###### password reset:
 
-- after use - python manage.py migrate
+![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/2_reset_password.jpg)
+![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/3_reset_password_meassage_to_email.jpg)
 
-6. use - python manage.py loaddata main_page_data.json
+###### registration:
 
-7. If you need admin control(http://127.0.0.1:8000/admin), you can create superuser using the command python manage.py createsuperuser
+![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/4_registration.jpg)
