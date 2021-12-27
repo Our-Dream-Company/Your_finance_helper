@@ -1,5 +1,9 @@
 # Your_finance_helper
 
+This is my pet project of financial accounting. He is a working prototype.
+
+I used the following technology stack: **Django, PostgresQL, Docker, Docker-Compose and other(you can see in requurements.txt)**
+
 Financial assistant project development
 
 1. download PostgresQL and install from https://www.postgresql.org/download/
