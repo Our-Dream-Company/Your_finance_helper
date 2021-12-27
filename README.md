@@ -14,20 +14,20 @@ Django applications includes:
 
 I used the standard Django classes for authentification. It includes:
 
-###### login/logout:
+**#### login/logout:**
 
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/1_login.jpg)
 
-###### password change:
+**#### password change:**
 
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/3_change_password.jpg)
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/3_change_password_completed.jpg)
 
-###### password reset:
+**#### password reset:**
 
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/2_reset_password.jpg)
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/3_reset_password_meassage_to_email.jpg)
 
-###### registration:
+**#### registration:**
 
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/4_registration.jpg)
