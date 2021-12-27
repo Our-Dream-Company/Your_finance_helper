@@ -9,7 +9,7 @@ YEAR_CHOICES = tuple(i for i in range(2010, 2041))
 class TransactionUpdateForm(ModelForm):
     class Meta:
         model = GeneralTable
-        exclude = ['enabled']
+        exclude = ['enabled', 'id_user']
 
 
 class TransactionDeleteForm(ModelForm):
