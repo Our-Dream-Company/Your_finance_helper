@@ -79,3 +79,12 @@ At the moment, the test coverage is 99%.
 1. Request an env file from me (contacts will be below).
 2. Run services:
    `docker-compose up --build`
+   If you see an error in your Docker
+   `your_finance_helper_web_1 exited with code 1`
+   you need change in [entrypoint.sh](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/your_finance_helper/entrypoint.sh) from _CRLF_ to _LF_.
+
+## Contacts
+
+- Instagram: [@igor*komkov*](https://www.instagram.com/igor_komkov_/)
+- Vk.com: [Igor Komkov](https://vk.com/zzzscadzzz)
+- email: **scad200@gmail.com**
