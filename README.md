@@ -31,3 +31,5 @@ I used the standard Django classes for authentification. It includes:
 **registration:**
 
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/4_registration.jpg)
+
+I have used my own templates in this application. Authentication is designed so that information about income / expenses is displayed for each individual registered user.
