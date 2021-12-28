@@ -88,4 +88,5 @@ you need change in [entrypoint.sh](https://github.com/Our-Dream-Company/Your_fin
 
 - Instagram: [@igor*komkov*](https://www.instagram.com/igor_komkov_/)
 - Vk.com: [Igor Komkov](https://vk.com/zzzscadzzz)
+- Linkedin: [Igor Komkov](https://www.linkedin.com/in/igor-komkov/)
 - email: **scad200@gmail.com**
