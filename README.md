@@ -11,9 +11,7 @@ I used the following technology stack:
 - Docker
 - Docker-Compose
 - Gunicorn
-- Jinja2
 - Pytest
-- other(you can see in requirements.txt)
 ```
 
 Django applications includes:
@@ -58,7 +56,6 @@ If the user adds _income_
 
 or _outcome_
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/6_add_outcome.jpg)
-_('Add income' button rename)_
 
 on the _main page_, he can see this data immediately in main page:
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/5_main_page1.jpg)
