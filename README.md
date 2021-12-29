@@ -1,8 +1,20 @@
 # Your_finance_helper
 
-This is my pet project of financial accounting. He is a working prototype.
+This is my pet project of financial accounting. It's working prototype.
 
-I used the following technology stack: **Django, PostgresQL, Docker, Docker-Compose and other(you can see in requurements.txt)**
+I used the following technology stack:
+
+```
+- Django
+- PostgreSQL
+- Psycopg2
+- Docker
+- Docker-Compose
+- Gunicorn
+- Jinja2
+- Pytest
+- other(you can see in requirements.txt)
+```
 
 Django applications includes:
 
@@ -32,13 +44,13 @@ I used the standard Django classes for authentification. It includes:
 
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/4_registration.jpg)
 
-I have used my own templates in this application. Authentication is designed so that information about income / expenses is displayed for each individual registered user.
+I have used my own templates in this application. Authentication is designed in such a way, so information about income / expenses is displayed for each individual registered user..
 
 ## Main page
 
 In this application, you can see the records of your income / expenses in a readable form by sections, categories and names of the operation. You can see the balance from the beginning of the month to the current date. You can also see information in the period of interest by dates.
 
-When a user logs into the system for the first time, the following information will be displayed in front of him:
+When user see this page first time, the following information will be displayed in front of him:
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/5_main_page.jpg)
 
 If the user adds _income_
@@ -48,17 +60,17 @@ or _outcome_
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/6_add_outcome.jpg)
 _('Add income' button rename)_
 
-on the _main page_, he already sees information in such a view:
+on the _main page_, he can see this data immediately in main page:
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/5_main_page1.jpg)
 
 I am using my own [module](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/your_finance_helper/main_page/split_queryset.py) for human readable output.
 
 ## Reports
 
-This application will store reports from the _main page application, savings, a list of planned expenses_. At the moment, the _main page_ application report has been implemented.
+This application store reports from the _main page application, savings, a list of planned expenses_. At the moment, the _main page_ application report has been implemented.
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/7_reports_buttons.jpg)
 
-In the application report of the main page, the user can see the detailed information about the transaction. The user can also choose to display information for the desired period.
+In the application report of the main page, the user can see the detailed information about the transaction. The also user can select period for information about transactions.
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/7_reports_detailed.jpg)
 
 He can immediately select the desired transaction and update or delete it.
