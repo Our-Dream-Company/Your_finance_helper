@@ -20,6 +20,16 @@ Django applications includes:
 2. [main_page](https://github.com/Our-Dream-Company/Your_finance_helper/tree/master/your_finance_helper/main_page)
 3. [reports](https://github.com/Our-Dream-Company/Your_finance_helper/tree/master/your_finance_helper/reports)
 
+## Usage
+
+1. Request an env file from me (contacts will be below).
+2. Run services:
+   `docker-compose up --build`
+
+If you see an error in your Docker
+`your_finance_helper_web_1 exited with code 1`
+you need change in [entrypoint.sh](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/your_finance_helper/entrypoint.sh) from _CRLF_ to _LF_.
+
 ## Authentication
 
 I used the standard Django classes for authentification. It includes:
@@ -46,7 +56,11 @@ I have used my own templates in this application. Authentication is designed in 
 
 ## Main page
 
-In this application, you can see the records of your income / expenses in a readable form by sections, categories and names of the operation. You can see the balance from the beginning of the month to the current date. You can also see information in the period of interest by dates.
+In this application, you can see:
+
+- Records of your income / expenses in a readable form by sections, categories and names of the operation.
+- Balance from the beginning of the month to the current date.
+- Information in the period of interest by dates.
 
 When user see this page first time, the following information will be displayed in front of him:
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/5_main_page.jpg)
@@ -82,16 +96,6 @@ Removal is done by changing the **enabled** field of the [model](https://github.
 My application Your_finance_helper has [tests](https://github.com/Our-Dream-Company/Your_finance_helper/tree/master/your_finance_helper/tests). Tests are written with a pytest.
 At the moment, the test coverage is 99%.
 ![](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/images/8_test_coverage.jpg)
-
-## Usage
-
-1. Request an env file from me (contacts will be below).
-2. Run services:
-   `docker-compose up --build`
-
-If you see an error in your Docker
-`your_finance_helper_web_1 exited with code 1`
-you need change in [entrypoint.sh](https://github.com/Our-Dream-Company/Your_finance_helper/blob/master/your_finance_helper/entrypoint.sh) from _CRLF_ to _LF_.
 
 ## Contacts
 
