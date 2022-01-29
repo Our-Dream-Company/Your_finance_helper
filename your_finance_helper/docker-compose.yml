@@ -13,6 +13,8 @@ services:
     build: 
       context: ./
       dockerfile: Dockerfile
+    environment:
+      - POSTGRES_HOST=db
     ports:
       - target: 8000
         published: 8000
