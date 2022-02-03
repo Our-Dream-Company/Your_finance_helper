@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'authentication',
     'main_page',
     'reports',
-    'rest_framework',
     'captcha',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -79,13 +78,6 @@ TEMPLATES = [
         },
     },
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    )
-}
 
 WSGI_APPLICATION = 'your_finance_helper.wsgi.application'
 
