@@ -79,7 +79,7 @@ pillow==9.0.1
     # via django-simple-captcha
 pip-compile-multi==2.4.3
     # via -r requirements.in
-pip-tools==6.4.0
+pip-tools==6.5.1
     # via pip-compile-multi
 pluggy==1.0.0
     # via pytest
@@ -91,7 +91,7 @@ py==1.11.0
     # via pytest
 pyparsing==3.0.7
     # via packaging
-pytest==6.2.5
+pytest==7.0.0
     # via
     #   -r requirements.in
     #   pytest-cov
@@ -115,12 +115,11 @@ sqlparse==0.4.2
     # via
     #   -r requirements.in
     #   django
-toml==0.10.2
-    # via pytest
-tomli==2.0.0
+tomli==2.0.1
     # via
     #   coverage
     #   pep517
+    #   pytest
 toposort==1.7
     # via pip-compile-multi
 tzdata==2021.5
