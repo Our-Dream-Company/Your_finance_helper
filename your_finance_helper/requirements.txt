@@ -10,11 +10,9 @@ atomicwrites==1.4.0
     # via pytest
 attrs==21.4.0
     # via pytest
-backports.zoneinfo==0.2.1
-    # via django
 certifi==2021.10.8
     # via requests
-charset-normalizer==2.0.11
+charset-normalizer==2.0.12
     # via requests
 click==8.0.3
     # via
@@ -32,11 +30,12 @@ coreschema==0.0.4
     #   coreapi
 coverage[toml]==6.3.1
     # via pytest-cov
-django==4.0.2
+django==3.2.12
     # via
     #   -r requirements.in
     #   django-annoying
     #   django-cors-headers
+    #   django-js-asset
     #   django-ranged-response
     #   django-simple-captcha
 django-annoying==0.10.6
@@ -45,7 +44,7 @@ django-ckeditor==6.2.0
     # via -r requirements.in
 django-cors-headers==3.11.0
     # via -r requirements.in
-django-js-asset==1.2.2
+django-js-asset==2.0.0
     # via
     #   -r requirements.in
     #   django-ckeditor
@@ -79,7 +78,7 @@ pillow==9.0.1
     # via django-simple-captcha
 pip-compile-multi==2.4.3
     # via -r requirements.in
-pip-tools==6.4.0
+pip-tools==6.5.1
     # via pip-compile-multi
 pluggy==1.0.0
     # via pytest
@@ -91,7 +90,7 @@ py==1.11.0
     # via pytest
 pyparsing==3.0.7
     # via packaging
-pytest==6.2.5
+pytest==7.0.1
     # via
     #   -r requirements.in
     #   pytest-cov
@@ -102,8 +101,8 @@ pytest-django==4.5.2
     # via -r requirements.in
 python-dateutil==2.8.2
     # via -r requirements.in
-python-dotenv==0.19.2
-    # via -r requirements.in
+pytz==2021.3
+    # via django
 requests==2.27.1
     # via coreapi
 six==1.16.0
@@ -115,16 +114,13 @@ sqlparse==0.4.2
     # via
     #   -r requirements.in
     #   django
-toml==0.10.2
-    # via pytest
-tomli==2.0.0
+tomli==2.0.1
     # via
     #   coverage
     #   pep517
+    #   pytest
 toposort==1.7
     # via pip-compile-multi
-tzdata==2021.5
-    # via django
 uritemplate==4.1.1
     # via coreapi
 urllib3==1.26.8

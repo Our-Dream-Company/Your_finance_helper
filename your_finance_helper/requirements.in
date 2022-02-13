@@ -1,7 +1,7 @@
 sqlparse
 coreapi
 coreschema
-Django
+Django<4
 django-annoying
 django-ckeditor
 django-cors-headers
@@ -14,7 +14,6 @@ Jinja2
 pip-compile-multi
 psycopg2
 psycopg2-binary
-python-dotenv
 pytest
 pytest-cov
 pytest-django

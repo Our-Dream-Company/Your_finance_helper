@@ -4,3 +4,4 @@
 .coverage
 your_finance_helper/.env
 
+your_finance_helper/config/test_settings.py
