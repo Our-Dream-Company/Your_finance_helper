@@ -6,6 +6,11 @@ from django.contrib.auth.models import User
 from captcha.conf import settings as captcha_settings
 
 
+# @pytest.hookimpl(tryfirst=True)
+# def pytest_load_initial_conftests(early_config, parser, args):
+#     load_dotenv()
+
+
 @pytest.fixture()
 def captcha_test_mode():
     captcha_settings.CAPTCHA_TEST_MODE = True
