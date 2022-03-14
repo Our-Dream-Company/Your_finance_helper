@@ -1,5 +1,6 @@
 *.pyc
 /txt
 /sanden
+/sand
 .coverage
 your_finance_helper/.env
